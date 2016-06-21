@@ -2,7 +2,10 @@ extends layout
 
 block content
   if (!user)
-    p Welcome to the world of Made Game yo.
+    h1 Next Battle
+    p Starts in #{battle.date}. There are #{battle.userCount} users participating.
+    p Please log in or register to participate!
+    
   if (user)
     h1 #{user.username}
     .row
@@ -21,7 +24,8 @@ block content
                 if(user.experience>0)
                   a.glyphicon.glyphicon-plus(href="increase-strength")
       .col-lg-6
-        h2 Battles
+        h2 Next Battle
+        p Starts in #{battle.date}. There are #{battle.userCount} users participating.
         if (user.participating)
           p #{user.username} is participating in the upcoming battle.
           a.btn.btn-lg.btn-danger.btn-block(href="/un-participate") Leave

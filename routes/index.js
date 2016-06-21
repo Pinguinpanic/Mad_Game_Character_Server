@@ -1,11 +1,20 @@
 var express = require('express');
 var passport = require('passport');
 var Account = require('../models/account');
+var Battle = require('../models/battle');
 var router = express.Router();
 
 
+var battle=(new Battle({
+	id: 0,
+	date: "2 hours",
+	users: [],
+	userCount: 0
+}));
+battle.save();
+
 router.get('/', function (req, res) {
-    res.render('index', { user : req.user });
+    res.render('index', { user : req.user, battle: battle });
 });
 
 router.get('/register', function(req, res) {
@@ -69,19 +78,34 @@ router.get('/increase-strength', function(req, res){
 		req.user.strength+=1;
 	}
 	req.user.save();
-	res.render('index', { user : req.user });
+	res.render('index', { user : req.user , battle: battle});
 });
 
 router.get('/participate', function(req, res){
-	req.user.participating=true;
-	req.user.save();
-	res.render('index', { user : req.user });
+	if(!req.user.participating)
+	{
+		req.user.participating=true;
+		req.user.save();
+		battle.users.push(req.user.username);
+		battle.userCount +=1;
+		res.render('index', { user : req.user, battle: battle });
+	}
 });
 
 router.get('/un-participate', function(req, res){
-	req.user.participating=false;
-	req.user.save();
-	res.render('index', { user : req.user });
+	if(req.user.participating)
+	{
+		req.user.participating=false;
+		req.user.save();
+		var index = battle.users.indexOf(req.user.username);
+		if(index>-1)
+		{
+			battle.users.splice(index,1);
+			battle.userCount -=1;
+		}
+		res.render('index', { user : req.user, battle: battle });
+	}
+
 });
 
 module.exports = router;
