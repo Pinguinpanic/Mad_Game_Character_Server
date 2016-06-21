@@ -3,15 +3,43 @@ html
   head
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    link(href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    link(href='bootstrap/css/bootstrap.min.css', rel='stylesheet', media='screen')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     if (error && error.length > 0)
       br
       h4.error-msg= error
       br
+      
+    .site-wrapper
+      .site-wrapper-inner
+        .cover-container
+          //Header
+          div(class="masthead clearfix")
+            .inner
+              h3.masthead-brand Mad Game
+              nav
+                ul(class="nav masthead-nav")
+                  li 
+                    a(href="/") Home
+                  if(!user)
+                    li 
+                      a(href="/login") Login
+                    li 
+                      a(href="/register") Register
+                  if(user)
+                    li 
+                      a(href="/logout") Logout
 
-    block content
+          //Content below
+          div(class="inner cover")
+            block content
 
-  script(src='http://code.jquery.com/jquery.js')
-  script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
+          //Footer
+          .mastfoot
+            .inner
+              .p Bobbejacob & Boppevriese productions.
+          
+
+  //script(src='http://code.jquery.com/jquery.js')
+  script(src='bootstrap/js/bootstrap.min.js')
