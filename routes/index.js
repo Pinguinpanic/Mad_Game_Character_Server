@@ -17,7 +17,7 @@ router.post('/register', function(req, res, next) {
 		username : req.body.username,
 		strength : 1,
 		experience : 0,
-		participating : False
+		participating : false
 	}), req.body.password, function(err, account) {
         if (err) {
           return res.render('register', { error : err.message });
