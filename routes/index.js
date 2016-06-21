@@ -16,7 +16,7 @@ router.post('/register', function(req, res, next) {
     Account.register(new Account({ 
 		username : req.body.username,
 		strength : 1,
-		experience : 0,
+		experience : 3,
 		participating : false
 	}), req.body.password, function(err, account) {
         if (err) {
@@ -60,6 +60,28 @@ router.get('/logout', function(req, res, next) {
 
 router.get('/ping', function(req, res){
     res.status(200).send("pong!");
+});
+
+router.get('/increase-strength', function(req, res){
+	if(req.user.experience>0)
+	{
+		req.user.experience-=1;
+		req.user.strength+=1;
+	}
+	req.user.save();
+	res.render('index', { user : req.user });
+});
+
+router.get('/participate', function(req, res){
+	req.user.participating=true;
+	req.user.save();
+	res.render('index', { user : req.user });
+});
+
+router.get('/un-participate', function(req, res){
+	req.user.participating=false;
+	req.user.save();
+	res.render('index', { user : req.user });
 });
 
 module.exports = router;

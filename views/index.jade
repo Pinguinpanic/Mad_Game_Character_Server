@@ -13,13 +13,19 @@ block content
             tr
               td Experience
               td #{user.experience}
+              td
             tr
               td Strength
-              td #{user.strength}
+              td  #{user.strength}
+              td
+                if(user.experience>0)
+                  a.glyphicon.glyphicon-plus(href="increase-strength")
       .col-lg-6
         h2 Battles
         if (user.participating)
           p #{user.username} is participating in the upcoming battle.
+          a.btn.btn-lg.btn-danger.btn-block(href="/un-participate") Leave
         if (!user.participating)
           p #{user.username} is not participating in the upcoming battle.
+          a.btn.btn-lg.btn-success.btn-block(href="/participate") Join
 
