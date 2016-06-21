@@ -4,4 +4,22 @@ block content
   if (!user)
     p Welcome to the world of Made Game yo.
   if (user)
-    p Hello #{user.username}.
+    h1 #{user.username}
+    .row
+      .col-lg-6
+        h2 Stats
+        table.table
+          tbody
+            tr
+              td Experience
+              td #{user.experience}
+            tr
+              td Strength
+              td #{user.strength}
+      .col-lg-6
+        h2 Battles
+        if (user.participating)
+          p #{user.username} is participating in the upcoming battle.
+        if (!user.participating)
+          p #{user.username} is not participating in the upcoming battle.
+
