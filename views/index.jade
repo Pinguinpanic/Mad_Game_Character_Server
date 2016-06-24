@@ -21,6 +21,8 @@ block content
                 b Armor
               td 
                 b Damage
+              td
+                b Unequip
             tr
               td Helmet
                 if(user.helmet.length>0)
@@ -28,6 +30,14 @@ block content
                     b #{user.helmet[0].name}
                   td #{user.helmet[0].armor}
                   td #{user.helmet[0].damage}
+                  td
+                    a.glyphicon.glyphicon-minus(href="/unequip/0")
+                 else
+                   td
+                   td
+                   td
+                   td
+
             tr
               td Armor
                 if(user.armor.length>0)
@@ -35,6 +45,13 @@ block content
                     b #{user.armor[0].name}
                   td #{user.armor[0].armor}
                   td #{user.armor[0].damage}
+                  td
+                    a.glyphicon.glyphicon-minus(href="/unequip/1")
+                 else
+                   td
+                   td
+                   td
+                   td
             tr
               td Weapon
                 if(user.weapon.length>0)
@@ -42,6 +59,13 @@ block content
                     b #{user.weapon[0].name}
                   td #{user.weapon[0].armor}
                   td #{user.weapon[0].damage}
+                  td
+                    a.glyphicon.glyphicon-minus(href="/unequip/2")
+                 else
+                   td
+                   td
+                   td
+                   td
             tr
               td
                 b Total
@@ -50,14 +74,16 @@ block content
                p #{user.totalarmor}
               td
                p #{user.totaldamage}
+              td
 
         a.btn.btn-lg.btn-danger.btn-block(href="/add-random/0") Add random tier 1
         a.btn.btn-lg.btn-danger.btn-block(href="/add-random/1") Add random tier 2
         a.btn.btn-lg.btn-danger.btn-block(href="/add-random/2") Add random tier 3
 
+      .col-lg-6.trunk
         h2 Trunk
         table.table
-          tbody
+          tbody.trunk
             tr
               td 
                 b Name
@@ -69,17 +95,18 @@ block content
                 b Damage
               td
                 b Equip
+              each val in user.trunk
+                tr
+                  td #{val.name}
+                  td #{val.type}
+                  td #{val.armor}
+                  td #{val.damage}
+                  td
+                    a.glyphicon.glyphicon-plus(href="/equip/#{val._id}")    
 
-            each val in user.trunk
-              tr
-                td #{val.name}
-                td #{val.type}
-                td #{val.armor}
-                td #{val.damage}
-                td
-                  a(href="/equip/#{val._id}") equip
 
-
+    .row
+      .col-lg-3
       .col-lg-6
         h2 Next Battle
         p Starts in #{battle.date}. There are #{battle.userCount} users participating.
@@ -89,4 +116,4 @@ block content
         if (!user.participating)
           p #{user.username} is not participating in the upcoming battle.
           a.btn.btn-lg.btn-success.btn-block(href="/participate") Join
-
+      .col-lg-3      

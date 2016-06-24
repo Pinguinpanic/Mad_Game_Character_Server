@@ -117,6 +117,13 @@ body {
   font-weight: bold;
 }
 
+/*
+ *
+ */
+.trunk {
+   height: 500px;
+   overflow-y: auto;
+}
 
 /*
  * Footer
@@ -131,7 +138,7 @@ body {
   * Sign in stuff
   */
 .form-signin {
-  max-width: 330px;
+  max-width: 6600px;
   padding: 15px;
   margin: 0 auto;
 }
@@ -196,6 +203,6 @@ body {
   .masthead,
   .mastfoot,
   .cover-container {
-    width: 700px;
+    width: 800px;
   }
 }

@@ -186,6 +186,8 @@ modifiers.push({name:"Engraved", 	damage:0, 	armor:0,	affect:["Weapon","Armor","
 modifiers.push({name:"Royal", 		damage:1, 	armor:1,	affect:["Weapon","Armor","Helmet"]});
 modifiers.push({name:"Bloodstained",	damage:0, 	armor:0,	affect:["Weapon","Armor","Helmet"]});
 modifiers.push({name:"Grand", 		damage:2, 	armor:2,	affect:["Weapon","Armor","Helmet"]});
+modifiers.push({name:"Gilded", 		damage:0, 	armor:0,	affect:["Weapon","Armor","Helmet"]});
+modifiers.push({name:"Silly", 		damage:0, 	armor:0,	affect:["Weapon","Armor","Helmet"]});
 
 var endModifiers = [];
 endModifiers.push({name:"Pain", 		damage:2, 	armor:0,	affect:["Weapon"]});
@@ -195,6 +197,7 @@ endModifiers.push({name:"Reckless Retribution",	damage:4, 	armor:-3,	affect:["We
 endModifiers.push({name:"Protection",		damage:0, 	armor:1,	affect:["Weapon","Armor","Helmet"]});
 endModifiers.push({name:"the Saint",		damage:-3, 	armor:4,	affect:["Armor","Helmet"]});
 endModifiers.push({name:"the Heroic",		damage:-1, 	armor:2,	affect:["Weapon","Armor","Helmet"]});
+endModifiers.push({name:"Fear", 		damage:2, 	armor:2,	affect:["Helmet"]});
 
 //For all tiers create extra items with modifiers
 for(var i=0; i<3; i++)
@@ -358,7 +361,52 @@ router.get('/equip/:id', function(req, res){
 	req.user.totaldamage=totaldamage;
 
 	req.user.save();
-	res.redirect('/');
+	//res.redirect("/");
+	res.render('index', { user : req.user, battle: battle });
+})
+
+router.get('/unequip/:id', function(req, res){
+	var id= req.params.id;
+	if(id == 0)
+	{
+		req.user.trunk.push(req.user.helmet[0]);
+		req.user.helmet=[];
+	}
+	if(id == 1)
+	{
+		req.user.trunk.push(req.user.armor[0]);
+		req.user.armor=[];
+	}
+	if(id == 2)
+	{
+		req.user.trunk.push(req.user.weapon[0]);
+		req.user.weapon=[];
+	}
+	
+	//Reculculate armor
+	var totalarmor=0;
+	var totaldamage=0;
+	if(req.user.weapon.length>0)
+	{
+		totalarmor+=req.user.weapon[0].armor;
+		totaldamage+=req.user.weapon[0].damage;
+	}
+	if(req.user.armor.length>0)
+	{
+		totalarmor+=req.user.armor[0].armor;
+		totaldamage+=req.user.armor[0].damage;
+	}
+	if(req.user.helmet.length>0)
+	{
+		totalarmor+=req.user.helmet[0].armor;
+		totaldamage+=req.user.helmet[0].damage;
+	}
+		
+	req.user.totalarmor=totalarmor;
+	req.user.totaldamage=totaldamage;
+
+	req.user.save();
+	//res.redirect("/");
 	res.render('index', { user : req.user, battle: battle });
 })
 
