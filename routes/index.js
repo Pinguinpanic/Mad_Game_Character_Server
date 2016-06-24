@@ -2,6 +2,7 @@ var express = require('express');
 var passport = require('passport');
 var Account = require('../models/account');
 var Battle = require('../models/battle');
+var Item = require('../models/item');
 var router = express.Router();
 
 
@@ -24,8 +25,10 @@ router.get('/register', function(req, res) {
 router.post('/register', function(req, res, next) {
     Account.register(new Account({ 
 		username : req.body.username,
-		strength : 1,
-		experience : 3,
+		trunk : [],
+		helmet : [],
+		armor : [],
+		weapon : [],
 		participating : false
 	}), req.body.password, function(err, account) {
         if (err) {
@@ -41,6 +44,7 @@ router.post('/register', function(req, res, next) {
             });
         });
     });
+
 });
 
 
@@ -67,20 +71,8 @@ router.get('/logout', function(req, res, next) {
     });
 });
 
-router.get('/ping', function(req, res){
-    res.status(200).send("pong!");
-});
 
-router.get('/increase-strength', function(req, res){
-	if(req.user.experience>0)
-	{
-		req.user.experience-=1;
-		req.user.strength+=1;
-	}
-	req.user.save();
-	res.render('index', { user : req.user , battle: battle});
-});
-
+/* Account stuff handling */
 router.get('/participate', function(req, res){
 	if(!req.user.participating)
 	{
@@ -107,5 +99,44 @@ router.get('/un-participate', function(req, res){
 	}
 
 });
+
+router.get('/add-random', function(req, res){
+	var dildo =(new Item({
+		name: "Dildo",
+		type: "Weapon",
+		damage: 1,
+		armor: 0
+	}));
+	var stick =(new Item({
+		name: "Stick",
+		type: "Weapon",
+		damage: 1,
+		armor: 0
+	}));
+	var sabre =(new Item({
+		name: "Sabre",
+		type: "Weapon",
+		damage: 3,
+		armor: 0
+	}));
+	var integraalhelm =(new Item({
+		name: "Integraalhelm",
+		type: "Helmet",
+		damage: 1,
+		armor: 2
+	}));
+	var armor =(new Item({
+		name: "Seal Fur",
+		type: "Helmet",
+		damage: 0,
+		armor: 3
+	}));
+	
+	var items = [dildo,stick,sabre,integraalhelm,armor];
+	req.user.trunk.push(items[Math.floor(Math.random()*5)]);
+	req.user.save();
+	res.render('index', { user : req.user, battle: battle });
+});
+
 
 module.exports = router;

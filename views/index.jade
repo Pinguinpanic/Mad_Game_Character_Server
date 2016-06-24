@@ -14,15 +14,57 @@ block content
         table.table
           tbody
             tr
-              td Experience
-              td #{user.experience}
+              td 
+              td 
+                b Name
+              td 
+                b Armor
+              td 
+                b Damage
+            tr
+              td Helmet
+              td 
+                if(user.helmet[0])
+                  #{user.helmet[0].name}
+              td
               td
             tr
-              td Strength
-              td  #{user.strength}
+              td Armor
               td
-                if(user.experience>0)
-                  a.glyphicon.glyphicon-plus(href="increase-strength")
+                if(user.armor[0])
+                  #{user.armor[0].name}
+              td 
+              td
+            tr
+              td Weapon
+              td
+                if(user.weapon[0])
+                  #{user.weapon[0].name}
+              td 
+              td
+
+        a.btn.btn-lg.btn-danger.btn-block(href="/add-random") Add random
+
+        h2 Trunk
+        table.table
+          tbody
+            tr
+              td 
+                b Name
+              td
+                b Type
+              td 
+                b Armor
+              td 
+                b Damage
+
+            each val in user.trunk
+              tr
+                td #{val.name}
+                td #{val.type}
+                td #{val.armor}
+                td #{val.damage}
+
       .col-lg-6
         h2 Next Battle
         p Starts in #{battle.date}. There are #{battle.userCount} users participating.
