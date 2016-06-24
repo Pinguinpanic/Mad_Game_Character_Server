@@ -23,27 +23,37 @@ block content
                 b Damage
             tr
               td Helmet
-              td 
-                if(user.helmet[0])
-                  #{user.helmet[0].name}
-              td
-              td
+                if(user.helmet.length>0)
+                  td 
+                    b #{user.helmet[0].name}
+                  td #{user.helmet[0].armor}
+                  td #{user.helmet[0].damage}
             tr
               td Armor
-              td
-                if(user.armor[0])
-                  #{user.armor[0].name}
-              td 
-              td
+                if(user.armor.length>0)
+                  td 
+                    b #{user.armor[0].name}
+                  td #{user.armor[0].armor}
+                  td #{user.armor[0].damage}
             tr
               td Weapon
+                if(user.weapon.length>0)
+                  td 
+                    b #{user.weapon[0].name}
+                  td #{user.weapon[0].armor}
+                  td #{user.weapon[0].damage}
+            tr
               td
-                if(user.weapon[0])
-                  #{user.weapon[0].name}
-              td 
+                b Total
               td
+              td
+               p #{user.totalarmor}
+              td
+               p #{user.totaldamage}
 
-        a.btn.btn-lg.btn-danger.btn-block(href="/add-random") Add random
+        a.btn.btn-lg.btn-danger.btn-block(href="/add-random/0") Add random tier 1
+        a.btn.btn-lg.btn-danger.btn-block(href="/add-random/1") Add random tier 2
+        a.btn.btn-lg.btn-danger.btn-block(href="/add-random/2") Add random tier 3
 
         h2 Trunk
         table.table
@@ -57,6 +67,8 @@ block content
                 b Armor
               td 
                 b Damage
+              td
+                b Equip
 
             each val in user.trunk
               tr
@@ -64,6 +76,9 @@ block content
                 td #{val.type}
                 td #{val.armor}
                 td #{val.damage}
+                td
+                  a(href="/equip/#{val._id}") equip
+
 
       .col-lg-6
         h2 Next Battle

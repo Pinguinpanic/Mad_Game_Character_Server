@@ -10,6 +10,8 @@ var Account = new Schema({
 	helmet: [Item.schema],
 	armor: [Item.schema],
 	weapon: [Item.schema],
+        totalarmor: Number,
+        totaldamage: Number,
 	participating: Boolean
 });
 
