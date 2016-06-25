@@ -106,7 +106,7 @@ router.get('/un-participate', function(req, res){
 });
 
 //Generate a set of items
-var itemsTier = [[],[],[]];
+var itemsTier = [[],[],[],[]];
 //Fill tier 1
 itemsTier[0].push(new Item({	name: "Jagged Dagger",		type: "Weapon",		damage: 2,	armor: 0 }));
 itemsTier[0].push(new Item({	name: "Iron Sword",		type: "Weapon",		damage: 2,	armor: 1 }));
@@ -177,6 +177,20 @@ itemsTier[2].push(new Item({	name: "Dragonhide Hood",	type: "Helmet",		damage: 1
 itemsTier[2].push(new Item({	name: "Goldplated Full Helm",	type: "Helmet",		damage: -1,	armor: 6 }));
 itemsTier[2].push(new Item({	name: "Winged Helm",		type: "Helmet",		damage: 0,	armor: 5 }));
 
+//Fill tier 4
+itemsTier[3].push(new Item({	name: "Excalibur",		type: "Weapon",		damage: 15,	armor: 5 }));
+itemsTier[3].push(new Item({	name: "Mjölnir",		type: "Weapon",		damage: 20,	armor: -10 }));
+itemsTier[3].push(new Item({	name: "Gungir",			type: "Weapon",		damage: 15,	armor: 0 }));
+itemsTier[3].push(new Item({	name: "Aegis",			type: "Weapon",		damage: 0,	armor: 20 }));
+
+itemsTier[3].push(new Item({	name: "Dwemmer Platemail",		type: "Armor",		damage: -10,	armor: 20 }));
+itemsTier[3].push(new Item({	name: "Medusa Skin Chainmail",		type: "Armor",		damage: 5,	armor: 10 }));
+itemsTier[3].push(new Item({	name: "Leviathan Hide Cloak",		type: "Armor",		damage: 0,	armor: 15 }));
+
+itemsTier[3].push(new Item({	name: "Medusa's Mask",		type: "Helmet",		damage: 10,	armor: 5 }));
+itemsTier[3].push(new Item({	name: "Dwemmer Full Helm",	type: "Helmet",		damage: -4,	armor: 12 }));
+itemsTier[3].push(new Item({	name: "Leaviathan Hide Hood",	type: "Helmet",		damage: 0,	armor: 8 }));
+
 //itemsTier[2].push(new Item({	name: "Delicious Sausage",	type: "Weapon",		damage: 1,	armor: 0 }));
 
 var modifiers = [];
@@ -201,6 +215,13 @@ endModifiers.push({name:"Protection",		damage:0, 	armor:1,	affect:["Weapon","Arm
 endModifiers.push({name:"the Saint",		damage:-3, 	armor:4,	affect:["Armor","Helmet"]});
 endModifiers.push({name:"the Heroic",		damage:-1, 	armor:2,	affect:["Weapon","Armor","Helmet"]});
 endModifiers.push({name:"Fear", 		damage:2, 	armor:2,	affect:["Helmet"]});
+
+
+var tier3modifiers = [];
+tier3modifiers.push({name:"Demon", 	damage:10, 	armor:-10,	affect:["Weapon","Armor","Helmet"]});
+tier3modifiers.push({name:"Pulsing", 	damage:4, 	armor:0,	affect:["Weapon","Armor","Helmet"]});
+tier3modifiers.push({name:"Lightning", 	damage:5, 	armor:0,	affect:["Weapon","Armor","Helmet"]});
+tier3modifiers.push({name:"Enchanted",	damage:0, 	armor:5,	affect:["Weapon","Armor","Helmet"]});
 
 //For all tiers create extra items with modifiers
 for(var i=0; i<3; i++)
@@ -244,6 +265,46 @@ for(var ii=0;ii<length;ii++)
 		}
 	}
 }
+
+//For all tier 4s create an extra modified item (endModifier)
+for(var ii=0;ii<length;ii++)
+{
+	var item=itemsTier[3][ii];
+	for(var iii=0;iii<endModifiers.length;iii++)
+	{
+		var modifier = endModifiers[iii];
+		if(modifier.affect.indexOf(item.type) !=-1)
+		{
+			var newItem = new Item({
+				name: item.name+" of "+modifier.name,
+				type: item.type,
+				damage: item.damage+modifier.damage,
+				armor: item.armor+modifier.armor
+			});
+			itemsTier[3].push(newItem);
+		}
+	}
+}
+//Special front modifiers for Tier4
+var length = itemsTier[3].length;
+for(var ii=0;ii<length;ii++)
+{
+	var item=itemsTier[3][ii];
+	for(var iii=0;iii<tier3modifiers.length;iii++)
+	{
+		var modifier = tier3modifiers[iii];
+		if(modifier.affect.indexOf(item.type) !=-1)
+		{
+			var newItem = new Item({
+				name: modifier.name+" "+item.name,
+				type: item.type,
+				damage: item.damage+modifier.damage,
+				armor: item.armor+modifier.armor
+			});
+			itemsTier[3].push(newItem);
+		}
+	}
+}
 //For all tier 2s create an extra modified item for in tier 3
 for(var ii=0;ii<length;ii++)
 {
@@ -266,6 +327,7 @@ for(var ii=0;ii<length;ii++)
 console.log(itemsTier[0].length);
 console.log(itemsTier[1].length);
 console.log(itemsTier[2].length);
+console.log(itemsTier[3].length);
 
 router.get('/add-random/:tier', function(req, res){
 	
@@ -468,14 +530,25 @@ router.get('/fight', function(req, res){
 			}
 			var die = function(actor,battle)
 			{
-				if(Math.random()<0.2)
+				if(Math.random()*-50>Math.random()*actor.hp)
 				{
 					actor.user.weapon=[];
 					actor.user.armor=[];
 					actor.user.helmet=[];
 					actor.user.totalarmor=0;
 					actor.user.totaldamage=0;
-					battle.battleLog.push(actor.user.username+" died.");
+					if(hp<-20)
+					{
+						battle.battleLog.push(actor.user.username+choose([" was absolutely pulverized."," was turned into a bloody pulp."," has been brutally massacred."]));
+					}
+					else if(hp<-10)
+					{
+						battle.battleLog.push(actor.user.username+choose([" was torn in half.", " has hacked into mutliple parts."," is very dead."]));
+					}
+					else
+					{
+						battle.battleLog.push(actor.user.username+choose([" has died."," dies.","has been deaded."," is dead.","has joined the afterlife"]));
+					}
 				}
 				else
 				{
@@ -484,10 +557,10 @@ router.get('/fight', function(req, res){
 			}
 			var attack = function(actor,target,battle)
 			{
-				if(Math.random()*actor.user.totalDamage<Math.random()*target.user.totalArmor)
+				if(1.2*Math.random()*actor.user.totalDamage<(Math.random()*target.user.totalArmor+Math.random()*target.user.totalDamage))
 				{
 					battle.battleLog.push(actor.user.username+choose([
-						" tries to slash "," takes a jab at"," swings his "+actor.weapon+" at ", " flings his "+actor.weapon+" at "
+						" tries to slash "," takes a jab at "," swings his "+actor.weapon+" at ", " flings his "+actor.weapon+" at "
 					])+target.user.username+choose([
 						", but he parries.",", but he blocks with his " +target.weapon+"."," but the hit is parried by his "+target.weapon+"."," but he deflects it.", " but he dodges."
 					]));
