@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Battle = new Schema({
-    id: Number,
     date: String,
-    users: [String],
+    participaters: [String],
+    users: String,
     userCount: Number,
     battleLog: String
 });

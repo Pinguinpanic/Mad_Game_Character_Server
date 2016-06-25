@@ -7,9 +7,9 @@ var router = express.Router();
 
 
 var battle=(new Battle({
-	id: 0,
 	date: "upcoming",
-	users: [],
+	participaters: [],
+	users: "{}",
 	userCount: 0,
 	battleLog: ""
 }));
@@ -82,7 +82,8 @@ router.get('/participate', function(req, res){
 	{
 		req.user.participating=true;
 		req.user.save();
-		battle.users.push(req.user.name);
+		battle.participaters.push(req.user._id);
+		console.log("Participating in : "+JSON.stringify(battle));
 		battle.userCount +=1;
 		res.render('index', { user : req.user, battle: battle });
 	}
@@ -93,10 +94,10 @@ router.get('/un-participate', function(req, res){
 	{
 		req.user.participating=false;
 		req.user.save();
-		var index = battle.users.indexOf(req.user.name);
+		var index = battle.participaters.indexOf(req.user._id);
 		if(index>-1)
 		{
-			battle.users.splice(index,1);
+			battle.participaters.splice(index,1);
 			battle.userCount -=1;
 		}
 		res.render('index', { user : req.user, battle: battle });
@@ -439,36 +440,67 @@ function getDateTime() {
 
 router.get('/fight', function(req, res){
 	battle.date = getDateTime();
-	console.log("Sick fight commences");
-	console.log(battle);
-	for(i=0;i<battle.userCount;i++)
+	var done = 0;
+	Account.find(function(err,accounts)
 	{
-		battle.battleLog += battle.users[i] + " fights.";
-	}
-		//Translate name to user
-/*		console.log(battle.users[i]);
-
-		found= Account[battle.users[i]];
-		if(found)
+		console.log("Simulating fight");
+		var battleDudes = [];
+		for( i in accounts)
 		{
-			console.log("Found one");
-			console.log(found[0]);
-			battle.battleLog += found.name + " fights."
-			console.log(battle.battleLog);
-			found.battles.push(battle);
+			var found = accounts[i];
+			//Skip ahead if not in
+			if(battle.participaters.indexOf(found._id)==-1) continue;
+			console.log("Adding participater:" +found.username);
+			battleDudes.push(found);
 			found.participating = false;
-			found.save();
+			found.save();	
 		}
-	}
-	/*battle=(new Battle({
-		id: 0,
-		date: "upcoming",
-		users: [],
-		userCount: 0,
-		battleLog: ""
-	}));*/
+		//START ---------------_GENERATE BATTLE LOG HERE----------------------
+		for( i in battleDudes )
+		{
+			var dude = battleDudes[i];
+			battle.battleLog += dude.username + " fights.";
+			console.log("Generating fight for :"+JSON.stringify(dude));
+			
+		}
+		//END   ---------------_GENERATE BATTLE LOG HERE----------------------
+		battle.users=JSON.stringify(battleDudes);
+		console.log("Finished battle :"+JSON.stringify(battle));
+		battle.save();
+		for( i in battleDudes)
+		{
+			var dude = battleDudes[i];
+			dude.battles.push(battle);
+			console.log("Added battle result to: "+JSON.stringify(dude));
+			dude.save();
+		}
+		var prevBattle = battle;
+		battle=(new Battle({
+			id: 0,
+			date: "upcoming",
+			users: "{}",
+			participaters: [],
+			userCount: 0,
+			battleLog: ""
+		}));
+	
+		res.json(prevBattle);
+	});
+});
 
-	res.render('index', {battle: battle });
+router.get('/battles', function(req,res) {
+	Battle.find(function(err, battles)
+	{
+		var myBattles = [];
+		for(i in battles)
+		{
+			var found = battles[i];
+			//Skip if not in
+			if(req.user.battles.indexOf(found._id)==-1) continue;	
+			myBattles.push(found);
+		}
+		res.json(myBattles);
+	});
 });
 
 module.exports = router;
