@@ -1,3 +1,66 @@
+
+//Weapon subtypes
+//var weaponsubtypes = ["unarmed","stab","slash","spear","hack","slash","club","doublekatana","excalibur","mjolnir","gungir","eagis"];
+
+var weaponAnimations = {
+	"unarmed" :
+	{
+		attack: [" punches "," kicks "," elbows "],
+		parry: [" dodges "," evades "]
+	},
+	"stab" :
+	{
+		attack: [" stabs "," takes a jab at "," makes a quick stab at "],
+		parry: [" dodges ", " evades "]
+	},
+	"spear" :
+	{
+		attack: [" stabs "," thrusts "," hits "],
+		parry: [" blocks ", " deflects "," dodges ", " evades "]
+	},
+	"hacks" :
+	{
+		attack: [" hacks "," slashes "," hits "],
+		parry: [" blocks ", " deflects "," dodges ", " evades "]
+	},
+	"slash" :
+	{
+		attack: [" stabs "," slashes "," hits "],
+		parry: [" parries ", " blocks ", " deflects "," dodges ", " evades "]
+	},
+	"club" :
+	{
+		attack: [" clubs "," boops "," hits "],
+		parry: [" blocks ", " dodges ", " evades "]
+	},
+	"doublekatana" :
+	{
+		attack: [" slashes "," samurais the shit out of "],
+		parry: [" blocks ", " uses his ninja reflexes to block ", " evades ", " dodges "]
+	},
+	"excalibur" :
+	{
+		attack: [" stabs "," slashes "," hits ", " gracefully slashes ", " thoughtfully stabs "],
+		parry: [" blocks ", " swiftly parries ", " parries ", " steps out of the way of "]
+	},
+	"mjolnir" :
+	{
+		attack: [" hacks "," slashes "," hits ", " shoots lightning at "],
+		parry: [" blocks ", " deflects "," dodges ", " evades "]
+	},
+	"gungir" :
+	{
+		attack: [" stabs "," thrusts "," hits ", " , with Odin's strength, thrusts "],
+		parry: [" blocks ", " deflects "," dodges ", " evades "]
+	},
+	"aegis" :
+	{
+		attack: [" clubs "," boops "," hits ", " slams the ground creating a shockwave that hits "],
+		parry: [" blocks ", " dodges ", " evades "]
+	},
+}
+
+
 function addLine(battle, line)
 {
 	battle.battleLog.push(line);
@@ -38,9 +101,11 @@ function die(battle,actor)
 }
 function attack(battle,actor,target)
 {
+	console.log(target.user.weapontype);
 	if(1.2*Math.random()*actor.user.totaldamage<(Math.random()*target.user.totalarmor+Math.random()*target.user.totaldamage))
 	{
-		addLine(battle,actor.user.username+choose([" tries to slash "," takes a jab at "," swings his "+actor.weapon+" at ", " flings his "+actor.weapon+" at "])+target.user.username+choose([", but he parries.",", but he blocks with his " +target.weapon+"."," but the hit is parried by his "+target.weapon+"."," but he deflects it.", " but he dodges."]));
+		addLine(battle,actor.user.username+choose(weaponAnimations[actor.weapontype].attack)+target.user.username+" with his "+actor.weapon
+			+" but he "+choose(weaponAnimations[actor.weapontype].parry)+".");
 		if(Math.random()>0.8)
 		{
 			addLine(battle,target.user.username+choose([" makes a counter-attack."," makes a quick counter-move."," counters."]));
@@ -52,11 +117,7 @@ function attack(battle,actor,target)
 		if(Math.random()>0.3)
 		{
 			target.hp-=Math.round(Math.random()*actor.dmg);
-			addLine(battle,actor.user.username+choose([" slashes "," takes a jab at"," connects a swing to "," deals a blow with his "+actor.weapon+" to", " flings his "+actor.weapon+" at "])+target.user.username+".");
-		}
-		else
-		{
-			addLine(battle,actor.user.username+choose([" misses "," barely misses "])+target.user.username+".");
+			addLine(battle,actor.user.username+choose(weaponAnimations[actor.weapontype].attack)+target.user.username+" with his "+actor.weapon+".");
 		}
 	}
 }
@@ -93,10 +154,12 @@ function fightBattle(battle,battleDudes)
 			if(dude.weapon.length>0)
 			{
 				newActor.weapon = dude.weapon[0].name;
+				newActor.weapontype = dude.weapon[0].subtype;
 			}
 			else
 			{
 				newActor.weapon = "bare hands";
+				newActor.weapontype = "unarmed";
 			}
 			battleActors.push(newActor);
 		}

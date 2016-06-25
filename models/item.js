@@ -5,6 +5,7 @@ var Item = new Schema({
 	tier: Number,
 	name: String,
 	type: String,
+	subtype: String,
 	damage: Number,
 	armor: Number
 });
