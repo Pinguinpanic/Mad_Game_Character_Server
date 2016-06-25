@@ -517,7 +517,7 @@ router.get('/fight', function(req, res){
 			var found = accounts[i];
 			//Skip ahead if not in
 			if(battle.participaters.indexOf(found._id)==-1) continue;
-			console.log("Adding participater:" +found.username);
+			//console.log("Adding participater:" +found.username);
 			battleDudes.push(found);
 			found.participating = false;
 			found.save();	
@@ -605,7 +605,7 @@ router.get('/fight', function(req, res){
 			}
 
 			//All join the fight
-			console.log("Joining all");
+			//console.log("Joining all");
 			var battleActors = [];
 			for( i in battleDudes )
 			{
@@ -624,16 +624,16 @@ router.get('/fight', function(req, res){
 			}
 			while(battleActors.length>1)
 			{
-				console.log("Taking battle step");
+				//console.log("Taking battle step");
 				battleActors = shuffle(battleActors);
 				var remove = [];
 				//All take a slash
 				for(i in battleActors)
 				{
 					var actor = battleActors[i];
-					console.log(actor.user.username+" takes a move");
+					//console.log(actor.user.username+" takes a move");
 					//Not always slash
-					if(Math.random()>0.8)
+					if(Math.random()>0.8 && actor.hp>0)
 					{
 						//Pick target
 						var targetables = battleActors.slice(0);
@@ -651,20 +651,20 @@ router.get('/fight', function(req, res){
 				}
 				for(i in remove)
 				{
-					console.log("Removing user");
+					//console.log("Removing user");
 					battleActors.splice(battleActors.indexOf(remove[i]));
 				}
 			}
 		}
 		//END   ---------------_GENERATE BATTLE LOG HERE----------------------
 		battle.users=JSON.stringify(battleDudes);
-		console.log("Finished battle :"+JSON.stringify(battle));
+		//console.log("Finished battle :"+JSON.stringify(battle));
 		battle.save();
 		for( i in battleDudes)
 		{
 			var dude = battleDudes[i];
 			dude.battles.push(battle);
-			console.log("Added battle result to: "+JSON.stringify(dude));
+			//console.log("Added battle result to: "+JSON.stringify(dude));
 			dude.save();
 		}
 		var prevBattle = battle;
