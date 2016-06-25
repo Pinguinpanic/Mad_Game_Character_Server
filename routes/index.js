@@ -8,9 +8,10 @@ var router = express.Router();
 
 var battle=(new Battle({
 	id: 0,
-	date: "2 hours",
+	date: "upcoming",
 	users: [],
-	userCount: 0
+	userCount: 0,
+	battleLog: ""
 }));
 battle.save();
 
@@ -31,6 +32,7 @@ router.post('/register', function(req, res, next) {
 		weapon : [],
 		totalarmor : 0,
 		totaldamage : 0,
+		battles : [],
 		participating : false
 	}), req.body.password, function(err, account) {
         if (err) {
@@ -80,7 +82,7 @@ router.get('/participate', function(req, res){
 	{
 		req.user.participating=true;
 		req.user.save();
-		battle.users.push(req.user.username);
+		battle.users.push(req.user.name);
 		battle.userCount +=1;
 		res.render('index', { user : req.user, battle: battle });
 	}
@@ -91,7 +93,7 @@ router.get('/un-participate', function(req, res){
 	{
 		req.user.participating=false;
 		req.user.save();
-		var index = battle.users.indexOf(req.user.username);
+		var index = battle.users.indexOf(req.user.name);
 		if(index>-1)
 		{
 			battle.users.splice(index,1);
@@ -410,5 +412,63 @@ router.get('/unequip/:id', function(req, res){
 	res.render('index', { user : req.user, battle: battle });
 })
 
+//ADMIN STUFF
+function getDateTime() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+}
+
+router.get('/fight', function(req, res){
+	battle.date = getDateTime();
+	console.log("Sick fight commences");
+	console.log(battle);
+	for(i=0;i<battle.userCount;i++)
+	{
+		battle.battleLog += battle.users[i] + " fights.";
+	}
+		//Translate name to user
+/*		console.log(battle.users[i]);
+
+		found= Account[battle.users[i]];
+		if(found)
+		{
+			console.log("Found one");
+			console.log(found[0]);
+			battle.battleLog += found.name + " fights."
+			console.log(battle.battleLog);
+			found.battles.push(battle);
+			found.participating = false;
+			found.save();
+		}
+	}
+	/*battle=(new Battle({
+		id: 0,
+		date: "upcoming",
+		users: [],
+		userCount: 0,
+		battleLog: ""
+	}));*/
+
+	res.render('index', {battle: battle });
+});
 
 module.exports = router;

@@ -4,6 +4,9 @@ block content
   if (!user)
     h1 Next Battle
     p Starts in #{battle.date}. There are #{battle.userCount} users participating.
+    each user in battle.users
+      p #{user}
+    p #{battle.battleLog}
     p Please log in or register to participate!
     
   if (user)
@@ -106,14 +109,17 @@ block content
 
 
     .row
-      .col-lg-3
       .col-lg-6
         h2 Next Battle
-        p Starts in #{battle.date}. There are #{battle.userCount} users participating.
+        p Battle starts in #{battle.date}. There are #{battle.userCount} users participating.
         if (user.participating)
           p #{user.username} is participating in the upcoming battle.
           a.btn.btn-lg.btn-danger.btn-block(href="/un-participate") Leave
         if (!user.participating)
           p #{user.username} is not participating in the upcoming battle.
-          a.btn.btn-lg.btn-success.btn-block(href="/participate") Join
-      .col-lg-3      
+          a.btn.btn-lg.btn-success.btn-block(href="/participate") Join     
+      .col-lg-6
+        h2 Last battles
+        each battle in user.battles
+          p There were #{battle.userCount} users participating in a fight on #{battle.date}.
+          p #{battle.battlelog}

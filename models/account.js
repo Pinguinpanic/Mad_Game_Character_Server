@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Item = require('../models/item');
+var Battle = require('../models/battle');
 var passportLocalMongoose = require('passport-local-mongoose');
 
 var Account = new Schema({
@@ -12,6 +13,7 @@ var Account = new Schema({
 	weapon: [Item.schema],
         totalarmor: Number,
         totaldamage: Number,
+	battles: [Battle.schema],
 	participating: Boolean
 });
 
