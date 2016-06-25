@@ -4,6 +4,7 @@ var Account = require('../models/account');
 var Battle = require('../models/battle');
 var Item = require('../models/item');
 var Items = require("../declarations/items.js");
+var BattleSimulation = require("../declarations/battle-simulation.js");
 var router = express.Router();
 
 
@@ -297,7 +298,7 @@ router.get('/fight', function(req, res){
 			found.save();	
 		}
 		//START ---------------_GENERATE BATTLE LOG HERE----------------------
-		if(battle.userCount <= 1)
+		/*if(battle.userCount <= 1)
 		{
 			battle.battleLog+="Nothing happens"
 		}
@@ -429,7 +430,10 @@ router.get('/fight', function(req, res){
 					battleActors.splice(battleActors.indexOf(remove[i]));
 				}
 			}
-		}
+		}*/
+		var result = BattleSimulation.play(battle,battleDudes);
+		battle = result.battle;
+		battleDudes = result.battleDudes;
 		//END   ---------------_GENERATE BATTLE LOG HERE----------------------
 		battle.users=JSON.stringify(battleDudes);
 		//console.log("Finished battle :"+JSON.stringify(battle));
