@@ -11,7 +11,7 @@ var battle=(new Battle({
 	participaters: [],
 	users: "{}",
 	userCount: 0,
-	battleLog: ""
+	battleLog: []
 }));
 battle.save();
 
@@ -456,12 +456,127 @@ router.get('/fight', function(req, res){
 			found.save();	
 		}
 		//START ---------------_GENERATE BATTLE LOG HERE----------------------
-		for( i in battleDudes )
+		if(battle.userCount <= 1)
 		{
-			var dude = battleDudes[i];
-			battle.battleLog += dude.username + " fights.";
-			console.log("Generating fight for :"+JSON.stringify(dude));
-			
+			battle.battleLog+="Nothing happens"
+		}
+		else
+		{
+			var choose = function(array)
+			{
+				return array[Math.floor(Math.random()*array.length)];
+			}
+			var die = function(actor,battle)
+			{
+				if(Math.random()<0.2)
+				{
+					actor.user.weapon=[];
+					actor.user.armor=[];
+					actor.user.helmet=[];
+					actor.user.totalarmor=0;
+					actor.user.totaldamage=0;
+					battle.battleLog.push(actor.user.username+" died.");
+				}
+				else
+				{
+					battle.battleLog.push(actor.user.username+choose([" was knocked unconscious."," falls on the floor in pain."," goes down."," succumbs to his wounds."," hits the floor unconsious"," goes out."]));
+				}
+			}
+			var attack = function(actor,target,battle)
+			{
+				if(Math.random()*actor.user.totalDamage<Math.random()*target.user.totalArmor)
+				{
+					battle.battleLog.push(actor.user.username+choose([
+						" tries to slash "," takes a jab at"," swings his "+actor.weapon+" at ", " flings his "+actor.weapon+" at "
+					])+target.user.username+choose([
+						", but he parries.",", but he blocks with his " +target.weapon+"."," but the hit is parried by his "+target.weapon+"."," but he deflects it.", " but he dodges."
+					]));
+					if(Math.random()>0.8)
+					{
+						battle.battleLog.push(target.user.username+choose([" makes a counter-attack."," makes a quick counter-move."," counters."]));
+						attack(target,actor,battle);	
+					}
+				}
+				else
+				{
+					if(Math.random()>0.3)
+					{
+						target.hp-=Math.round(Math.random()*actor.dmg);
+						battle.battleLog.push(actor.user.username+choose([
+							" slashes "," takes a jab at"," connects a swing to "," deals a blow with his "+actor.weapon+" to", " flings his "+actor.weapon+" at"
+						])+target.user.username+".");
+					}
+					else
+					{
+						battle.battleLog.push(actor.user.username+choose([
+							" misses "," barely misses ", 
+						])+target.user.username+".");
+					}
+				}
+			}
+			var shuffle = function(array) {
+				var counter = array.length;
+    				while (counter > 0) {
+				        var index = Math.floor(Math.random() * counter);
+				        counter--;
+        				var temp = array[counter];
+				        array[counter] = array[index];
+				        array[index] = temp;
+			    }
+			    return array;
+			}
+
+			//All join the fight
+			console.log("Joining all");
+			var battleActors = [];
+			for( i in battleDudes )
+			{
+				var dude = battleDudes[i];
+				battle.battleLog.push(dude.username + " joins the fights.");
+				var newActor = {user: dude, hp: dude.totalarmor+20, dmg: dude.totaldamage+20};
+				if(dude.weapon.length>0)
+				{
+					newActor.weapon = dude.weapon[0].name;
+				}
+				else
+				{
+					"bare hands";
+				}
+				battleActors.push(newActor);
+			}
+			while(battleActors.length>1)
+			{
+				console.log("Taking battle step");
+				battleActors = shuffle(battleActors);
+				var remove = [];
+				//All take a slash
+				for(i in battleActors)
+				{
+					var actor = battleActors[i];
+					console.log(actor.user.username+" takes a move");
+					//Not always slash
+					if(Math.random()>0.8)
+					{
+						//Pick target
+						var targetables = battleActors.slice(0);
+						targetables.splice(i,1);
+						targetables=shuffle(targetables);
+						var target = targetables[0];
+						//Make an attack
+						attack(actor,target,battle);
+						if(target.hp<=0)
+						{
+							die(target,battle);
+							remove.push(target);
+						}
+					}
+				}
+				for(i in remove)
+				{
+					console.log("Removing user");
+					battleActors.splice(battleActors.indexOf(remove[i]));
+				}
+			}
 		}
 		//END   ---------------_GENERATE BATTLE LOG HERE----------------------
 		battle.users=JSON.stringify(battleDudes);
@@ -481,7 +596,7 @@ router.get('/fight', function(req, res){
 			users: "{}",
 			participaters: [],
 			userCount: 0,
-			battleLog: ""
+			battleLog: []
 		}));
 	
 		res.json(prevBattle);

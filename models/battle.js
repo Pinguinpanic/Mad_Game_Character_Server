@@ -6,7 +6,7 @@ var Battle = new Schema({
     participaters: [String],
     users: String,
     userCount: Number,
-    battleLog: String
+    battleLog: [String]
 });
 
 module.exports = mongoose.model('Battle', Battle);

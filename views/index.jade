@@ -123,4 +123,5 @@ block content
         h2 Last battles
         each battle in user.battles
           p There were #{battle.userCount} users participating in a fight on #{battle.date}.
-          p #{battle.battleLog}
+          each line in battle.battleLog
+            p #{line}
