@@ -126,6 +126,27 @@ body {
 }
 
 /*
+ * item tiers
+ */
+.tier0 {
+	color: #FFF;
+}
+.tier1 {
+	color: #999;
+}
+
+.tier2 {
+	color: #866C12;
+	font-style: italic;
+}
+.tier3 {
+	color: #F6C124;
+	font-weight: bold;
+	font-style: italic;
+}
+
+
+/*
  * Footer
  */
 

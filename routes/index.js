@@ -108,88 +108,88 @@ router.get('/un-participate', function(req, res){
 //Generate a set of items
 var itemsTier = [[],[],[],[]];
 //Fill tier 1
-itemsTier[0].push(new Item({	name: "Jagged Dagger",		type: "Weapon",		damage: 2,	armor: 0 }));
-itemsTier[0].push(new Item({	name: "Iron Sword",		type: "Weapon",		damage: 2,	armor: 1 }));
-itemsTier[0].push(new Item({	name: "Quarterstaff",		type: "Weapon",		damage: 1,	armor: 1 }));
-itemsTier[0].push(new Item({	name: "Iron Axe",		type: "Weapon",		damage: 3,	armor: 0 }));
-itemsTier[0].push(new Item({	name: "Pactice Sword",		type: "Weapon",		damage: 1,	armor: 1 }));
-itemsTier[0].push(new Item({	name: "Iron Broadsword",	type: "Weapon",		damage: 3,	armor: 1 }));
-itemsTier[0].push(new Item({	name: "Iron Halberd",		type: "Weapon",		damage: 3,	armor: 0 }));
-itemsTier[0].push(new Item({	name: "Wooden Halberd",		type: "Weapon",		damage: 2,	armor: 0 }));
-itemsTier[0].push(new Item({	name: "Iron Mace",		type: "Weapon",		damage: 3,	armor: 0 }));
-itemsTier[0].push(new Item({	name: "Wooden Club",		type: "Weapon",		damage: 2,	armor: 0 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Jagged Dagger",		type: "Weapon",		damage: 2,	armor: 0 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Iron Sword",		type: "Weapon",		damage: 2,	armor: 1 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Quarterstaff",		type: "Weapon",		damage: 1,	armor: 1 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Iron Axe",		type: "Weapon",		damage: 3,	armor: 0 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Pactice Sword",		type: "Weapon",		damage: 1,	armor: 1 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Iron Broadsword",	type: "Weapon",		damage: 3,	armor: 1 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Iron Halberd",		type: "Weapon",		damage: 3,	armor: 0 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Wooden Halberd",		type: "Weapon",		damage: 2,	armor: 0 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Iron Mace",		type: "Weapon",		damage: 3,	armor: 0 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Wooden Club",		type: "Weapon",		damage: 2,	armor: 0 }));
 
-itemsTier[0].push(new Item({	name: "Fur Vest",		type: "Armor",		damage: 0,	armor: 2 }));
-itemsTier[0].push(new Item({	name: "Cloth Vest",		type: "Armor",		damage: 0,	armor: 1 }));
-itemsTier[0].push(new Item({	name: "Fur Cloak",		type: "Armor",		damage: 0,	armor: 2 }));
-itemsTier[0].push(new Item({	name: "Cloth Cloak",		type: "Armor",		damage: 0,	armor: 1 }));
-itemsTier[0].push(new Item({	name: "Fur Armor",		type: "Armor",		damage: 0,	armor: 3 }));
-itemsTier[0].push(new Item({	name: "Wooden Armor",		type: "Armor",		damage: -1,	armor: 2 }));
-itemsTier[0].push(new Item({	name: "Spiked Fur Armor",	type: "Armor",		damage: 1,	armor: 3 }));
-itemsTier[0].push(new Item({	name: "Bronze Chainmail",	type: "Armor",		damage: 0,	armor: 4 }));
-itemsTier[0].push(new Item({	name: "Cloth Shirt",		type: "Armor",		damage: 0,	armor: 0 }));
-itemsTier[0].push(new Item({	name: "Cloth Robe",		type: "Armor",		damage: 0,	armor: 1 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Fur Vest",		type: "Armor",		damage: 0,	armor: 2 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Cloth Vest",		type: "Armor",		damage: 0,	armor: 1 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Fur Cloak",		type: "Armor",		damage: 0,	armor: 2 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Cloth Cloak",		type: "Armor",		damage: 0,	armor: 1 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Fur Armor",		type: "Armor",		damage: 0,	armor: 3 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Wooden Armor",		type: "Armor",		damage: -1,	armor: 2 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Spiked Fur Armor",	type: "Armor",		damage: 1,	armor: 3 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Bronze Chainmail",	type: "Armor",		damage: 0,	armor: 4 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Cloth Shirt",		type: "Armor",		damage: 0,	armor: 0 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Cloth Robe",		type: "Armor",		damage: 0,	armor: 1 }));
 
-itemsTier[0].push(new Item({	name: "Fur Cap",		type: "Helmet",		damage: 0,	armor: 1 }));
-itemsTier[0].push(new Item({	name: "Fur Turban",		type: "Helmet",		damage: 0,	armor: 1 }));
-itemsTier[0].push(new Item({	name: "Fur Hood",		type: "Helmet",		damage: 0,	armor: 1 }));
-itemsTier[0].push(new Item({	name: "Cloth Hood",		type: "Helmet",		damage: 0,	armor: 0 }));
-itemsTier[0].push(new Item({	name: "Wooden Mask",		type: "Helmet",		damage: 0,	armor: 1 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Fur Cap",		type: "Helmet",		damage: 0,	armor: 1 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Fur Turban",		type: "Helmet",		damage: 0,	armor: 1 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Fur Hood",		type: "Helmet",		damage: 0,	armor: 1 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Cloth Hood",		type: "Helmet",		damage: 0,	armor: 0 }));
+itemsTier[0].push(new Item({	tier:0,		name: "Wooden Mask",		type: "Helmet",		damage: 0,	armor: 1 }));
 
 //Fill tier 2
-itemsTier[1].push(new Item({	name: "Poisoned Dagger",	type: "Weapon",		damage: 5,	armor: 0 }));
-itemsTier[1].push(new Item({	name: "Steel Sword",		type: "Weapon",		damage: 4,	armor: 2 }));
-itemsTier[1].push(new Item({	name: "Katana",			type: "Weapon",		damage: 4,	armor: 3 }));
-itemsTier[1].push(new Item({	name: "Steel Battleaxe",	type: "Weapon",		damage: 7,	armor: -1 }));
-itemsTier[1].push(new Item({	name: "Steel Rapier",		type: "Weapon",		damage: 4,	armor: 1 }));
-itemsTier[1].push(new Item({	name: "Lead Mace",		type: "Weapon",		damage: 6,	armor: -1 }));
-itemsTier[1].push(new Item({	name: "Giant Shield",		type: "Weapon",		damage: 0,	armor: 5 }));
-itemsTier[1].push(new Item({	name: "Steel Pike",		type: "Weapon",		damage: 5,	armor: 0 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Poisoned Dagger",	type: "Weapon",		damage: 5,	armor: 0 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Steel Sword",		type: "Weapon",		damage: 4,	armor: 2 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Katana",			type: "Weapon",		damage: 4,	armor: 3 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Steel Battleaxe",	type: "Weapon",		damage: 7,	armor: -1 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Steel Rapier",		type: "Weapon",		damage: 4,	armor: 1 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Lead Mace",		type: "Weapon",		damage: 6,	armor: -1 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Giant Shield",		type: "Weapon",		damage: 0,	armor: 5 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Steel Pike",		type: "Weapon",		damage: 5,	armor: 0 }));
 
 
-itemsTier[1].push(new Item({	name: "Iron Chainmail",		type: "Armor",		damage: -1,	armor: 5 }));
-itemsTier[1].push(new Item({	name: "Iron Platemail",		type: "Armor",		damage: -2,	armor: 8 }));
-itemsTier[1].push(new Item({	name: "Steel Chainmail",	type: "Armor",		damage: -1,	armor: 6 }));
-itemsTier[1].push(new Item({	name: "Iron Platemail",		type: "Armor",		damage: -2,	armor: 9 }));
-itemsTier[1].push(new Item({	name: "Spiked Leather Armor",	type: "Armor",		damage: 2,	armor: 4 }));
-itemsTier[1].push(new Item({	name: "Leather Cloak",		type: "Armor",		damage: 0,	armor: 3 }));
-itemsTier[1].push(new Item({	name: "Leather Armor",		type: "Armor",		damage: 0,	armor: 4 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Iron Chainmail",		type: "Armor",		damage: -1,	armor: 5 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Iron Platemail",		type: "Armor",		damage: -2,	armor: 8 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Steel Chainmail",	type: "Armor",		damage: -1,	armor: 6 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Iron Platemail",		type: "Armor",		damage: -2,	armor: 9 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Spiked Leather Armor",	type: "Armor",		damage: 2,	armor: 4 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Leather Cloak",		type: "Armor",		damage: 0,	armor: 3 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Leather Armor",		type: "Armor",		damage: 0,	armor: 4 }));
 
-itemsTier[1].push(new Item({	name: "Iron Helmet",		type: "Helmet",		damage: 0,	armor: 2 }));
-itemsTier[1].push(new Item({	name: "Iron Full Helmet",	type: "Helmet",		damage: -1,	armor: 3 }));
-itemsTier[1].push(new Item({	name: "Steel Helmet",		type: "Helmet",		damage: 0,	armor: 3 }));
-itemsTier[1].push(new Item({	name: "Steel Full Helmet",	type: "Helmet",		damage: 0,	armor: 3 }));
-itemsTier[1].push(new Item({	name: "Leather Hood",		type: "Helmet",		damage: 0,	armor: 2 }));
-itemsTier[1].push(new Item({	name: "Iron Mask",		type: "Helmet",		damage: 0,	armor: 2 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Iron Helmet",		type: "Helmet",		damage: 0,	armor: 2 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Iron Full Helmet",	type: "Helmet",		damage: -1,	armor: 3 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Steel Helmet",		type: "Helmet",		damage: 0,	armor: 3 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Steel Full Helmet",	type: "Helmet",		damage: 0,	armor: 3 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Leather Hood",		type: "Helmet",		damage: 0,	armor: 2 }));
+itemsTier[1].push(new Item({	tier:1,		name: "Iron Mask",		type: "Helmet",		damage: 0,	armor: 2 }));
 
 //Fill tier 3
-itemsTier[2].push(new Item({	name: "Venomous Dagger",	type: "Weapon",		damage: 5,	armor: 0 }));
-itemsTier[2].push(new Item({	name: "Double Katana",		type: "Weapon",		damage: 7,	armor: 4 }));
-itemsTier[2].push(new Item({	name: "Berserker Battleaxe",	type: "Weapon",		damage: 10,	armor: -2 }));
-itemsTier[2].push(new Item({	name: "Balanced Rapier",	type: "Weapon",		damage: 6,	armor: 3 }));
+itemsTier[2].push(new Item({	tier:2,		name: "Venomous Dagger",	type: "Weapon",		damage: 5,	armor: 0 }));
+itemsTier[2].push(new Item({	tier:2,		name: "Double Katana",		type: "Weapon",		damage: 7,	armor: 4 }));
+itemsTier[2].push(new Item({	tier:2,		name: "Berserker Battleaxe",	type: "Weapon",		damage: 10,	armor: -2 }));
+itemsTier[2].push(new Item({	tier:2,		name: "Balanced Rapier",	type: "Weapon",		damage: 6,	armor: 3 }));
 
-itemsTier[2].push(new Item({	name: "Goldplated Chainmail",	type: "Armor",		damage: -2,	armor: 10 }));
-itemsTier[2].push(new Item({	name: "Siege Armor",		type: "Armor",		damage: -3,	armor: 12 }));
-itemsTier[2].push(new Item({	name: "Poison Spiked Armor",	type: "Armor",		damage: 2,	armor: 6 }));
-itemsTier[2].push(new Item({	name: "Dragonhide Cloak",	type: "Armor",		damage: 0,	armor: 8 }));
+itemsTier[2].push(new Item({	tier:2,		name: "Goldplated Chainmail",	type: "Armor",		damage: -2,	armor: 10 }));
+itemsTier[2].push(new Item({	tier:2,		name: "Siege Armor",		type: "Armor",		damage: -3,	armor: 12 }));
+itemsTier[2].push(new Item({	tier:2,		name: "Poison Spiked Armor",	type: "Armor",		damage: 2,	armor: 6 }));
+itemsTier[2].push(new Item({	tier:2,		name: "Dragonhide Cloak",	type: "Armor",		damage: 0,	armor: 8 }));
 
-itemsTier[2].push(new Item({	name: "Dragonhide Hood",	type: "Helmet",		damage: 1,	armor: 4 }));
-itemsTier[2].push(new Item({	name: "Goldplated Full Helm",	type: "Helmet",		damage: -1,	armor: 6 }));
-itemsTier[2].push(new Item({	name: "Winged Helm",		type: "Helmet",		damage: 0,	armor: 5 }));
+itemsTier[2].push(new Item({	tier:2,		name: "Dragonhide Hood",	type: "Helmet",		damage: 1,	armor: 4 }));
+itemsTier[2].push(new Item({	tier:2,		name: "Goldplated Full Helm",	type: "Helmet",		damage: -1,	armor: 6 }));
+itemsTier[2].push(new Item({	tier:2,		name: "Winged Helm",		type: "Helmet",		damage: 0,	armor: 5 }));
 
 //Fill tier 4
-itemsTier[3].push(new Item({	name: "Excalibur",		type: "Weapon",		damage: 15,	armor: 5 }));
-itemsTier[3].push(new Item({	name: "Mjölnir",		type: "Weapon",		damage: 20,	armor: -10 }));
-itemsTier[3].push(new Item({	name: "Gungir",			type: "Weapon",		damage: 15,	armor: 0 }));
-itemsTier[3].push(new Item({	name: "Aegis",			type: "Weapon",		damage: 0,	armor: 20 }));
+itemsTier[3].push(new Item({	tier:3,		name: "Excalibur",		type: "Weapon",		damage: 15,	armor: 5 }));
+itemsTier[3].push(new Item({	tier:3,		name: "Mjölnir",		type: "Weapon",		damage: 20,	armor: -10 }));
+itemsTier[3].push(new Item({	tier:3,		name: "Gungir",			type: "Weapon",		damage: 15,	armor: 0 }));
+itemsTier[3].push(new Item({	tier:3,		name: "Aegis",			type: "Weapon",		damage: 0,	armor: 20 }));
 
-itemsTier[3].push(new Item({	name: "Dwemmer Platemail",		type: "Armor",		damage: -10,	armor: 20 }));
-itemsTier[3].push(new Item({	name: "Medusa Skin Chainmail",		type: "Armor",		damage: 5,	armor: 10 }));
-itemsTier[3].push(new Item({	name: "Leviathan Hide Cloak",		type: "Armor",		damage: 0,	armor: 15 }));
+itemsTier[3].push(new Item({	tier:3,		name: "Dwemmer Platemail",		type: "Armor",		damage: -10,	armor: 20 }));
+itemsTier[3].push(new Item({	tier:3,		name: "Medusa Skin Chainmail",		type: "Armor",		damage: 5,	armor: 10 }));
+itemsTier[3].push(new Item({	tier:3,		name: "Leviathan Hide Cloak",		type: "Armor",		damage: 0,	armor: 15 }));
 
-itemsTier[3].push(new Item({	name: "Medusa's Mask",		type: "Helmet",		damage: 10,	armor: 5 }));
-itemsTier[3].push(new Item({	name: "Dwemmer Full Helm",	type: "Helmet",		damage: -4,	armor: 12 }));
-itemsTier[3].push(new Item({	name: "Leaviathan Hide Hood",	type: "Helmet",		damage: 0,	armor: 8 }));
+itemsTier[3].push(new Item({	tier:3,		name: "Medusa's Mask",		type: "Helmet",		damage: 10,	armor: 5 }));
+itemsTier[3].push(new Item({	tier:3,		name: "Dwemmer Full Helm",	type: "Helmet",		damage: -4,	armor: 12 }));
+itemsTier[3].push(new Item({	tier:3,		name: "Leaviathan Hide Hood",	type: "Helmet",		damage: 0,	armor: 8 }));
 
 //itemsTier[2].push(new Item({	name: "Delicious Sausage",	type: "Weapon",		damage: 1,	armor: 0 }));
 
@@ -236,6 +236,7 @@ for(var i=0; i<3; i++)
 			if(modifier.affect.indexOf(item.type) !=-1)
 			{
 				var newItem = new Item({
+					tier: item.tier,
 					name: modifier.name+" "+item.name,
 					type: item.type,
 					damage: item.damage+modifier.damage,
@@ -256,6 +257,7 @@ for(var ii=0;ii<length;ii++)
 		if(modifier.affect.indexOf(item.type) !=-1)
 		{
 			var newItem = new Item({
+				tier: item.tier,
 				name: item.name+" of "+modifier.name,
 				type: item.type,
 				damage: item.damage+modifier.damage,
@@ -276,6 +278,7 @@ for(var ii=0;ii<length;ii++)
 		if(modifier.affect.indexOf(item.type) !=-1)
 		{
 			var newItem = new Item({
+				tier: item.tier,
 				name: item.name+" of "+modifier.name,
 				type: item.type,
 				damage: item.damage+modifier.damage,
@@ -296,6 +299,7 @@ for(var ii=0;ii<length;ii++)
 		if(modifier.affect.indexOf(item.type) !=-1)
 		{
 			var newItem = new Item({
+				tier: item.tier,
 				name: modifier.name+" "+item.name,
 				type: item.type,
 				damage: item.damage+modifier.damage,
@@ -315,6 +319,7 @@ for(var ii=0;ii<length;ii++)
 		if(modifier.affect.indexOf(item.type) !=-1)
 		{
 			var newItem = new Item({
+				tier: item.tier,
 				name: item.name+" of "+modifier.name,
 				type: item.type,
 				damage: item.damage+modifier.damage,

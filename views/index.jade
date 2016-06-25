@@ -29,8 +29,8 @@ block content
             tr
               td Helmet
                 if(user.helmet.length>0)
-                  td 
-                    b #{user.helmet[0].name}
+                  td
+                    p(class="tier#{user.helmet[0].tier}") #{user.helmet[0].name}
                   td #{user.helmet[0].armor}
                   td #{user.helmet[0].damage}
                   td
@@ -44,8 +44,8 @@ block content
             tr
               td Armor
                 if(user.armor.length>0)
-                  td 
-                    b #{user.armor[0].name}
+                  td
+                    p(class="tier#{user.armor[0].tier}") #{user.armor[0].name}
                   td #{user.armor[0].armor}
                   td #{user.armor[0].damage}
                   td
@@ -58,8 +58,8 @@ block content
             tr
               td Weapon
                 if(user.weapon.length>0)
-                  td 
-                    b #{user.weapon[0].name}
+                  td
+                    p(class="tier#{user.weapon[0].tier}") #{user.weapon[0].name}
                   td #{user.weapon[0].armor}
                   td #{user.weapon[0].damage}
                   td
@@ -101,7 +101,8 @@ block content
                 b Equip
               each val in user.trunk
                 tr
-                  td #{val.name}
+                  td
+                    p(class="tier#{val.tier}") #{val.name}
                   td #{val.type}
                   td #{val.armor}
                   td #{val.damage}
