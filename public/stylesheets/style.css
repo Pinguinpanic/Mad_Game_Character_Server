@@ -129,14 +129,14 @@ body {
  * item tiers
  */
 .tier0 {
-	color: #FFF;
+	color: #AC957B;
 }
 .tier1 {
-	color: #999;
+	color: #FFF;
 }
 
 .tier2 {
-	color: #866C12;
+	color: #00AAFF;
 	font-style: italic;
 }
 .tier3 {

@@ -319,7 +319,7 @@ for(var ii=0;ii<length;ii++)
 		if(modifier.affect.indexOf(item.type) !=-1)
 		{
 			var newItem = new Item({
-				tier: item.tier,
+				tier: 2,
 				name: item.name+" of "+modifier.name,
 				type: item.type,
 				damage: item.damage+modifier.damage,
