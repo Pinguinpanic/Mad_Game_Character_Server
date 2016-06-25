@@ -102,7 +102,7 @@ function die(battle,actor)
 function attack(battle,actor,target)
 {
 	console.log(target.user.weapontype);
-	if(1.2*Math.random()*actor.user.totaldamage<(Math.random()*target.user.totalarmor+Math.random()*target.user.totaldamage))
+	if(2*Math.random()*actor.user.totaldamage<(Math.random()*target.user.totalarmor+Math.random()*target.user.totaldamage*.5))
 	{
 		addLine(battle,actor.user.username+choose(weaponAnimations[actor.weapontype].attack)+target.user.username+" with his "+actor.weapon
 			+" but he "+choose(weaponAnimations[actor.weapontype].parry)+".");

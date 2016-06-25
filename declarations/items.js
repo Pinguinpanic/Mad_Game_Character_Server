@@ -253,5 +253,10 @@ module.exports = {
 	tier: function(t)
 	{
 		return itemsTier[t];
+	},
+	getLoot: function(tier)
+	{
+		var tierItems = itemsTier[tier];
+		return tierItems[Math.floor(Math.random()*tierItems.length)];
 	}
 }

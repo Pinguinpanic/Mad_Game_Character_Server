@@ -109,10 +109,8 @@ router.get('/un-participate', function(req, res){
 
 
 router.get('/add-random/:tier', function(req, res){
-	
 	var tier = req.params.tier;
-	var tierItems = Items.tier(tier);
-	req.user.trunk.push(tierItems[Math.floor(Math.random()*tierItems.length)]);
+	req.user.trunk.push(Items.getLoot(tier));
 	req.user.save();
 	res.render('index', { user : req.user, battle: battle });
 });
