@@ -74,7 +74,7 @@ function choose(array)
 
 function die(battle,actor)
 {
-	if(Math.random()*-50>Math.random()*actor.hp)
+	if(Math.random()*-50>Math.random()*actor.hp || Math.random()>0.9)
 	{
 		actor.user.weapon=[];
 		actor.user.armor=[];
@@ -84,33 +84,33 @@ function die(battle,actor)
 		actor.user.level=0;
 		if(actor.hp<-20)
 		{
-			addLine(battle,actor.user.username+choose([" was absolutely pulverized."," was turned into a bloody pulp."," has been brutally massacred."]));
+			addLine(battle,actor.printname+choose([" was absolutely pulverized."," was turned into a bloody pulp."," has been brutally massacred."]));
 		}
 		else if(actor.hp<-10)
 		{
-			addLine(battle,actor.user.username+choose([" was torn in half.", " has hacked into mutliple parts."," is very dead."]));
+			addLine(battle,actor.printname+choose([" was torn in half.", " has hacked into mutliple parts."," is very dead."]));
 		}
 		else
 		{
-			addLine(battle,actor.user.username+choose([" has died."," dies.","has been deaded."," is dead.","has joined the afterlife"]));
+			addLine(battle,actor.printname+choose([" has died."," dies.","has been deaded."," is dead.","has joined the afterlife"]));
 		}
 	}
 	else
 	{
-		addLine(battle,actor.user.username+choose([" was knocked unconscious."," falls on the floor in pain."," goes down."," succumbs to his wounds."," hits the floor unconsious"," goes out."]));
+		addLine(battle,actor.printname+choose([" was knocked unconscious."," falls on the floor in pain."," goes down."," succumbs to his wounds."," hits the floor unconsious"," goes out."]));
 	}
 }
 function attack(battle,actor,target)
 {
 	console.log("Weapontype:"+target.weapontype);
-	if(2*Math.random()*actor.user.totaldamage<(Math.random()*target.user.totalarmor+Math.random()*target.user.totaldamage*.5))
+	if(2*Math.random()*actor.dmg<(Math.random()*target.hp*1.5+Math.random()*target.dmg*0.5))
 	{
-		addLine(battle,actor.user.username+choose(weaponAnimations[actor.weapontype].attack)+target.user.username+" with his "+actor.weapon
+		addLine(battle,actor.printname+choose(weaponAnimations[actor.weapontype].attack)+target.printname+" with his "+actor.weapon
 			+" but he "+choose(weaponAnimations[actor.weapontype].parry)+".");
-		if(Math.random()>0.8)
+		if(Math.random()>0.7)
 		{
-			addLine(battle,target.user.username+choose([" makes a counter-attack."," makes a quick counter-move."," counters."]));
-			attack(battle,actor,target);	
+			addLine(battle,target.printname+choose([" makes a counter-attack."," makes a quick counter-move."," counters."]));
+			attack(battle,target,actor);	
 		}
 	}
 	else
@@ -118,7 +118,7 @@ function attack(battle,actor,target)
 		if(Math.random()>0.1)
 		{
 			target.hp-=Math.round(Math.random()*actor.dmg);
-			addLine(battle,actor.user.username+choose(weaponAnimations[actor.weapontype].attack)+target.user.username+" with his "+actor.weapon+".");
+			addLine(battle,actor.printname+choose(weaponAnimations[actor.weapontype].attack)+target.printname+" with his "+actor.weapon+".");
 		}
 	}
 }
@@ -140,6 +140,12 @@ function uniq(a) {
     })
 }
 
+function rc()
+{
+	return "#"+((1<<24)*Math.random()|0).toString(16)
+}
+
+
 function fightBattle(battle,battleDudes)
 {
 	if(battle.userCount <=1)
@@ -155,8 +161,9 @@ function fightBattle(battle,battleDudes)
 		for( i in battleDudes )
 		{
 			var dude = battleDudes[i];
-			addLine(battle,dude.username + " joins the fights.");
-			var newActor = {user: dude, hp: dude.totalarmor+20+dude.level/2, dmg: dude.totaldamage+20+dude.level/2};
+
+			var newActor = {printname: "<span style=\"color:"+rc()+";\">"+dude.username+"</span>", user: dude, hp: dude.totalarmor+20+dude.level/2, dmg: dude.totaldamage+20+dude.level/2};
+			addLine(battle,newActor.printname + " joins the fights.");
 			if(dude.weapon.length>0)
 			{
 				newActor.weapon = dude.weapon[0].name;
@@ -174,6 +181,7 @@ function fightBattle(battle,battleDudes)
 			//console.log("Taking battle step");
 			battleActors = shuffle(battleActors);
 			console.log("Current length"+battleActors.length);
+			console.log("First"+battleActors[0].user.username);
 			var remove = [];
 			//All take a slash
 			for(i in battleActors)
@@ -215,7 +223,7 @@ function fightBattle(battle,battleDudes)
 		}
 		if(battleActors.length > 0)
 		{
-			addLine(battle,battleActors[0].user.username+" wins.");
+			addLine(battle,battleActors[0].printname+" wins.");
 			return {battle: battle, battleDudes: battleDudes, winner : battleActors[0].user};
 		}
 		else

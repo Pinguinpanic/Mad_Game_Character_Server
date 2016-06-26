@@ -8,6 +8,8 @@ var BattleSimulation = require("../declarations/battle-simulation.js");
 var router = express.Router();
 
 
+var lastFight = new Date().getTime();
+
 var battle=(new Battle({
 	date: "upcoming",
 	participaters: [],
@@ -278,8 +280,15 @@ function getDateTime() {
 
     return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
 }
+//TODO: MOVE ALL HELPER FUNCTIONS TO THEIR OWN SPACE
+function uniq(a) {
+    return a.sort().filter(function(item, pos, ary) {
+        return !pos || item != ary[pos - 1];
+    })
+}
 
 router.get('/fight', function(req, res){
+
 	battle.date = getDateTime();
 	var done = 0;
 	//Don't do useless fight
@@ -290,6 +299,12 @@ router.get('/fight', function(req, res){
 	}
 	Account.find(function(err,accounts)
 	{
+
+		if(new Date().getTime()<lastFight+5000)
+		{
+			console.log("Fight still on cooldown");
+			return;
+		}
 		console.log("Simulating fight");
 		var battleDudes = [];
 		for( i in accounts)
@@ -302,9 +317,11 @@ router.get('/fight', function(req, res){
 			found.participating = false;
 			found.save();	
 		}
+		battleDudes=uniq(battleDudes);
 		//START ---------------_GENERATE BATTLE LOG HERE----------------------
 
 		var result = BattleSimulation.play(battle,battleDudes);
+		//console.log(JSON.stringify(result));
 		battle = result.battle;
 		battleDudes = result.battleDudes;
 		var winner = result.winner;
@@ -328,13 +345,13 @@ router.get('/fight', function(req, res){
 		}
 		var prevBattle = battle;
 		battle=(new Battle({
-			id: 0,
 			date: "upcoming",
 			users: "{}",
 			participaters: [],
 			userCount: 0,
 			battleLog: []
 		}));
+		lastFight=new Date().getTime();
 	});
 });
 
