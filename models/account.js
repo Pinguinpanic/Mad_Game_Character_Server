@@ -15,6 +15,7 @@ var Account = new Schema({
         totalarmor: Number,
         totaldamage: Number,
 	battles: [Battle.schema],
+	lastBattle : [Battle.schema],
 	participating: Boolean
 });
 

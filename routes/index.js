@@ -13,7 +13,6 @@ var lastFight = new Date().getTime();
 var battle=(new Battle({
 	date: "upcoming",
 	participaters: [],
-	users: "{}",
 	userCount: 0,
 	battleLog: []
 }));
@@ -38,6 +37,7 @@ router.post('/register', function(req, res, next) {
 		totaldamage : 0,
 		level : 0,
 		battles : [],
+		lastBattle : [],
 		participating : false
 	}), req.body.password, function(err, account) {
         if (err) {
@@ -332,21 +332,24 @@ router.get('/fight', function(req, res){
 			winner.trunk.push(Items.getLeveledLoot(winner.level));
 			winner.save();
 		}
+		else
+		{
+			console.log("Winner is undefined");
+		}
 		//END   ---------------_GENERATE BATTLE LOG HERE----------------------
-		battle.users=JSON.stringify(battleDudes);
 		//console.log("Finished battle :"+JSON.stringify(battle));
 		battle.save();
 		for( i in battleDudes)
 		{
 			var dude = battleDudes[i];
 			dude.battles.push(battle);
+			dude.lastBattle = battle;
 			//console.log("Added battle result to: "+JSON.stringify(dude));
 			dude.save();
 		}
 		var prevBattle = battle;
 		battle=(new Battle({
 			date: "upcoming",
-			users: "{}",
 			participaters: [],
 			userCount: 0,
 			battleLog: []

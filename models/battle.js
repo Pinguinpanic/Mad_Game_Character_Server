@@ -4,7 +4,6 @@ var Schema = mongoose.Schema;
 var Battle = new Schema({
     date: String,
     participaters: [String],
-    users: String,
     userCount: Number,
     battleLog: [String]
 });

@@ -4,9 +4,6 @@ block content
   if (!user)
     h1 Next Battle
     p Starts in #{battle.date}. There are #{battle.userCount} users participating.
-    each user in battle.users
-      p #{user}
-    p #{battle.battleLog}
     p Please log in or register to participate!
     
   if (user)
@@ -118,8 +115,8 @@ block content
         a.btn.btn-lg.btn-primary.btn-block(href="/refresh") Refresh 
         a.btn.btn-lg.btn-danger.btn-block(href="/fight") Fight 
       .col-lg-6
-        h2 Last battles
-        each battle in user.battles
+        h2 Last battle
+        each battle in user.lastBattle
           p There were #{battle.userCount} users participating in a fight on #{battle.date}.
           each line in battle.battleLog
             p !{line}
