@@ -18,7 +18,7 @@ var weaponAnimations = {
 		attack: [" stabs "," thrusts "," hits "],
 		parry: [" blocks ", " deflects "," dodges ", " evades "]
 	},
-	"hacks" :
+	"hack" :
 	{
 		attack: [" hacks "," slashes "," hits "],
 		parry: [" blocks ", " deflects "," dodges ", " evades "]
@@ -81,6 +81,7 @@ function die(battle,actor)
 		actor.user.helmet=[];
 		actor.user.totalarmor=0;
 		actor.user.totaldamage=0;
+		actor.user.level=0;
 		if(actor.hp<-20)
 		{
 			addLine(battle,actor.user.username+choose([" was absolutely pulverized."," was turned into a bloody pulp."," has been brutally massacred."]));
@@ -101,7 +102,7 @@ function die(battle,actor)
 }
 function attack(battle,actor,target)
 {
-	console.log(target.user.weapontype);
+	console.log("Weapontype:"+target.weapontype);
 	if(2*Math.random()*actor.user.totaldamage<(Math.random()*target.user.totalarmor+Math.random()*target.user.totaldamage*.5))
 	{
 		addLine(battle,actor.user.username+choose(weaponAnimations[actor.weapontype].attack)+target.user.username+" with his "+actor.weapon
@@ -114,7 +115,7 @@ function attack(battle,actor,target)
 	}
 	else
 	{
-		if(Math.random()>0.3)
+		if(Math.random()>0.1)
 		{
 			target.hp-=Math.round(Math.random()*actor.dmg);
 			addLine(battle,actor.user.username+choose(weaponAnimations[actor.weapontype].attack)+target.user.username+" with his "+actor.weapon+".");
@@ -133,13 +134,18 @@ function shuffle(array) {
 	return array;
 }
 
-
+function uniq(a) {
+    return a.sort().filter(function(item, pos, ary) {
+        return !pos || item != ary[pos - 1];
+    })
+}
 
 function fightBattle(battle,battleDudes)
 {
 	if(battle.userCount <=1)
 	{
 		addLine(battle, "Nothing happens");
+		return {battle: battle, battleDudes: battleDudes, winner : undefined};
 	}
 	else
 	{		
@@ -150,7 +156,7 @@ function fightBattle(battle,battleDudes)
 		{
 			var dude = battleDudes[i];
 			addLine(battle,dude.username + " joins the fights.");
-			var newActor = {user: dude, hp: dude.totalarmor+20, dmg: dude.totaldamage+20};
+			var newActor = {user: dude, hp: dude.totalarmor+20+dude.level/2, dmg: dude.totaldamage+20+dude.level/2};
 			if(dude.weapon.length>0)
 			{
 				newActor.weapon = dude.weapon[0].name;
@@ -167,6 +173,7 @@ function fightBattle(battle,battleDudes)
 		{
 			//console.log("Taking battle step");
 			battleActors = shuffle(battleActors);
+			console.log("Current length"+battleActors.length);
 			var remove = [];
 			//All take a slash
 			for(i in battleActors)
@@ -188,17 +195,35 @@ function fightBattle(battle,battleDudes)
 						die(battle,target);
 						remove.push(target);
 					}
+					if(actor.hp<=0)
+					{
+						die(battle,actor);
+						remove.push(actor);
+					}
 				}
 			}
-			for(i in remove)
+			if(remove.length>0)
 			{
-				//console.log("Removing user");
-				battleActors.splice(battleActors.indexOf(remove[i]));
+				remove=uniq(remove);
+				console.log("Removing: "+remove.length);
+				for(i in remove)
+				{
+					//console.log("Removing user");
+					battleActors.splice(battleActors.indexOf(remove[i]),1);
+				}
 			}
 		}
-		addLine(battle,"Battle ends.")
+		if(battleActors.length > 0)
+		{
+			addLine(battle,battleActors[0].user.username+" wins.");
+			return {battle: battle, battleDudes: battleDudes, winner : battleActors[0].user};
+		}
+		else
+		{
+			console.log("Battleactors are:"+JSON.stringify(battleActors));
+			return {battle: battle, battleDudes: battleDudes, winner : undefined};
+		}
 	}
-	return {battle: battle, battleDudes: battleDudes};
 }
 
 module.exports = { 

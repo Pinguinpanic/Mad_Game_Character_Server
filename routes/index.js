@@ -34,6 +34,7 @@ router.post('/register', function(req, res, next) {
 		weapon : [],
 		totalarmor : 0,
 		totaldamage : 0,
+		level : 0,
 		battles : [],
 		participating : false
 	}), req.body.password, function(err, account) {
@@ -281,6 +282,12 @@ function getDateTime() {
 router.get('/fight', function(req, res){
 	battle.date = getDateTime();
 	var done = 0;
+	//Don't do useless fight
+	if(battle.userCount<2)
+	{
+		console.log("Not enough participants for fight");
+		return;
+	}
 	Account.find(function(err,accounts)
 	{
 		console.log("Simulating fight");
@@ -300,7 +307,14 @@ router.get('/fight', function(req, res){
 		var result = BattleSimulation.play(battle,battleDudes);
 		battle = result.battle;
 		battleDudes = result.battleDudes;
-
+		var winner = result.winner;
+		//Give Loot To Winner
+		if(winner!=undefined)
+		{
+			winner.level+=(battle.userCount-1);
+			winner.trunk.push(Items.getLeveledLoot(winner.level));
+			winner.save();
+		}
 		//END   ---------------_GENERATE BATTLE LOG HERE----------------------
 		battle.users=JSON.stringify(battleDudes);
 		//console.log("Finished battle :"+JSON.stringify(battle));
@@ -321,8 +335,6 @@ router.get('/fight', function(req, res){
 			userCount: 0,
 			battleLog: []
 		}));
-	
-		res.json(prevBattle);
 	});
 });
 
@@ -339,6 +351,10 @@ router.get('/battles', function(req,res) {
 		}
 		res.json(myBattles);
 	});
+});
+
+router.get('/refresh', function(req,res) {
+	res.render('index', { user : req.user, battle: battle });
 });
 
 module.exports = router;

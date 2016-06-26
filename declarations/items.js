@@ -245,6 +245,35 @@ for(var i = 0; i<itemsTier.length ; i++)
 
 console.log("Total of "+total+" loaded.");
 
+//Individual Loot Chance
+function ilc(tier, lvl)
+{
+	switch(tier)
+	{
+		case 0:
+		return Math.max(0,100-3*lvl);
+		case 1:
+		return Math.max(0,0.0104819*lvl*lvl*lvl-0.678667*lvl*lvl+11.9949*lvl-0.765172);
+		case 2:
+		return Math.max(0,0.00126743*lvl*lvl*lvl-0.124757*lvl*lvl+3.85381*lvl-17.7995);
+		case 3:
+		return Math.max(0,-0.0015481*lvl*lvl*lvl+0.0465047*lvl*lvl+0.965397*lvl-13.2352);
+	}
+}
+//LOOT CURVES
+function lootChance(tier,lvl)
+{
+	//Chance sum
+	var sum=ilc(0,lvl)+ilc(1,lvl)+ilc(2,lvl)+ilc(3,lvl);
+	return ilc(tier,lvl)/sum;
+}
+
+function getLoot(tier)
+{
+	var tierItems = itemsTier[tier];
+	return tierItems[Math.floor(Math.random()*tierItems.length)];
+}
+
 module.exports = { 
 	all: function()
 	{
@@ -256,7 +285,31 @@ module.exports = {
 	},
 	getLoot: function(tier)
 	{
-		var tierItems = itemsTier[tier];
-		return tierItems[Math.floor(Math.random()*tierItems.length)];
+		return getLoot(tier);
+	},
+	getLeveledLoot: function(level)
+	{
+		var cum=0;
+		var chance = Math.random();
+		cum+=lootChance(0,level);
+		if(chance<=cum)
+		{
+			return getLoot(0);
+		}
+		cum+=lootChance(1,level);
+		if(chance<=cum)
+		{
+			return getLoot(1);
+		}
+		cum+=lootChance(2,level);
+		if(chance<=cum)
+		{
+			return getLoot(2);
+		}
+		else
+		{
+			return getLoot(3);
+		}
 	}
 }
+

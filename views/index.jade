@@ -11,6 +11,7 @@ block content
     
   if (user)
     h1 #{user.username}
+    h2 Level #{user.level}
     .row
       .col-lg-6
         h2 Stats
@@ -78,12 +79,6 @@ block content
               td
                p #{user.totaldamage}
               td
-
-        a.btn.btn-lg.btn-danger.btn-block(href="/add-random/0") Add random tier 1
-        a.btn.btn-lg.btn-danger.btn-block(href="/add-random/1") Add random tier 2
-        a.btn.btn-lg.btn-danger.btn-block(href="/add-random/2") Add random tier 3
-        a.btn.btn-lg.btn-danger.btn-block(href="/add-random/3") Add random tier 4
-
       .col-lg-6.trunk
         h2 Trunk
         table.table
@@ -120,7 +115,8 @@ block content
         if (!user.participating)
           p #{user.username} is not participating in the upcoming battle.
           a.btn.btn-lg.btn-success.btn-block(href="/participate") Join 
-        a.btn.btn-lg.btn-success.btn-block(href="/fight") FIGHT 
+        a.btn.btn-lg.btn-primary.btn-block(href="/refresh") Refresh 
+        a.btn.btn-lg.btn-danger.btn-block(href="/fight") Fight 
       .col-lg-6
         h2 Last battles
         each battle in user.battles
