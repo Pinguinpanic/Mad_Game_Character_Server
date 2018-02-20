@@ -42,8 +42,13 @@ passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());		
 passport.deserializeUser(Account.deserializeUser());		
 // mongoose		
-mongoose.connect('mongodb://localhost:12345/passport_local_mongoose_express4');		
+mongoose.connect('mongodb://PrototypeService:xEcmdgoVKAY9Fx8X@prototypecluster-shard-00-00-f83wb.mongodb.net:27017,prototypecluster-shard-00-01-f83wb.mongodb.net:27017,prototypecluster-shard-00-02-f83wb.mongodb.net:27017/test?ssl=true&replicaSet=PrototypeCluster-shard-0&authSource=admin');
+//mongoose.connect('mongodb://localhost:12345/passport_local_mongoose_express4');		
+//mongoose.connect('mongodb://PrototypeService:xEcmdgoVKAY9Fx8X@prototypecluster-shard-00-00-f83wb.mongodb.net:27017,prototypecluster-shard-00-01-f83wb.mongodb.net:27017,prototypecluster-shard-00-02-f83wb.mongodb.net:27017/test?ssl=true&replicaSet=PrototypeCluster-shard-0&authSource=admin');
+//'mongodb://PrototypeService:xEcmdgoVKAY9Fx8X@prototypecluster-shard-00-00-f83wb.mongodb.net:27017,prototypecluster-shard-00-01-f83wb.mongodb.net:27017,prototypecluster-shard-00-02-f83wb.mongodb.net:27017/test?ssl=true&replicaSet=PrototypeCluster-shard-0&authSource=admin'
 
+//PrototypeService
+//xEcmdgoVKAY9Fx8X
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

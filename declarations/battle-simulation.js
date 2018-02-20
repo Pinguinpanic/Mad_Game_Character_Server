@@ -223,6 +223,7 @@ function fightBattle(battle,battleDudes)
 		}
 		if(battleActors.length > 0)
 		{
+			console.log("Winner = "+battleActors[0].printname);
 			addLine(battle,battleActors[0].printname+" wins.");
 			return {battle: battle, battleDudes: battleDudes, winner : battleActors[0].user};
 		}

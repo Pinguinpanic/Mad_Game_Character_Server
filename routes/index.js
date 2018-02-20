@@ -299,7 +299,12 @@ router.get('/fight', function(req, res){
 	}
 	Account.find(function(err,accounts)
 	{
-
+		
+		if(err)
+		{
+			console.log(err);
+			next(err);
+		}
 		if(new Date().getTime()<lastFight+5000)
 		{
 			console.log("Fight still on cooldown");
@@ -317,35 +322,40 @@ router.get('/fight', function(req, res){
 			found.participating = false;
 			found.save();	
 		}
+		
 		battleDudes=uniq(battleDudes);
 		//START ---------------_GENERATE BATTLE LOG HERE----------------------
-
 		var result = BattleSimulation.play(battle,battleDudes);
-		//console.log(JSON.stringify(result));
+		console.log("Getting simulation");
+		console.log(JSON.stringify(result));
 		battle = result.battle;
 		battleDudes = result.battleDudes;
 		var winner = result.winner;
+		
 		//Give Loot To Winner
 		if(winner!=undefined)
 		{
-			winner.level+=(battle.userCount-1);
+			//console.log("Winner is"+winner);
+			winner.level+=(battle.userCount-1); 
 			winner.trunk.push(Items.getLeveledLoot(winner.level));
-			winner.save();
+			//console.log("Winner trunk:"+winner);
+			//winner.save();//HIER ZIT DE FOUT
 		}
 		else
 		{
 			console.log("Winner is undefined");
 		}
+		
 		//END   ---------------_GENERATE BATTLE LOG HERE----------------------
-		//console.log("Finished battle :"+JSON.stringify(battle));
-		battle.save();
+		console.log("Finished battle :"+JSON.stringify(battle));
+		//battle.save(); Ook fout
 		for( i in battleDudes)
 		{
 			var dude = battleDudes[i];
 			dude.battles.push(battle);
 			dude.lastBattle = battle;
 			//console.log("Added battle result to: "+JSON.stringify(dude));
-			dude.save();
+			//dude.save(); Ook fout
 		}
 		var prevBattle = battle;
 		battle=(new Battle({
@@ -354,7 +364,13 @@ router.get('/fight', function(req, res){
 			userCount: 0,
 			battleLog: []
 		}));
+		//console.log("Added new Battle");
 		lastFight=new Date().getTime();
+		
+		//console.log("Redirecting to last battle");
+		
+		//res.json(accounts);
+		res.redirect("/");
 	});
 });
 
