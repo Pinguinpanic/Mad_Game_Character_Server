@@ -7,6 +7,13 @@ block content
     p Please log in or register to participate!
     
   if (user)
+    script.
+      if(!!window.EventSource) {
+        var source = new EventSource('/stream')
+        source.addEventListener('message', function() {
+          window.location.assign('/');
+        }, false)
+      }
     h1 #{user.username}
     h2 Level #{user.level}
     .row

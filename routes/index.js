@@ -1,5 +1,6 @@
 var express = require('express');
 var passport = require('passport');
+var sse = require('sse') ;
 var Account = require('../models/account');
 var Battle = require('../models/battle');
 var Item = require('../models/item');
@@ -7,6 +8,9 @@ var Items = require("../declarations/items.js");
 var BattleSimulation = require("../declarations/battle-simulation.js");
 var router = express.Router();
 
+
+
+var connections = [];
 
 var lastFight = new Date().getTime();
 
@@ -17,6 +21,23 @@ var battle=(new Battle({
 	battleLog: []
 }));
 battle.save();
+
+function refreshAll() {
+	for(var i = 0; i < connections.length; i++) {
+		console.log('Refreshing '+connections[i]);
+		connections[i].write('data: hallo \n\n');
+	}
+}
+
+router.get('/stream', function(req, res) {
+	res.writeHead(200, {
+		'Content-Type': 'text/event-stream',
+		'Cache-Control': 'no-cache',
+		'Connection': 'keep-alive'
+	})
+	connections.push(res);
+	console.log('Registered user');
+});
 
 router.get('/', function (req, res) {
     res.render('index', { user : req.user, battle: battle });
@@ -327,7 +348,7 @@ router.get('/fight', function(req, res){
 		//START ---------------_GENERATE BATTLE LOG HERE----------------------
 		var result = BattleSimulation.play(battle,battleDudes);
 		console.log("Getting simulation");
-		console.log(JSON.stringify(result));
+		//console.log(JSON.stringify(result));
 		battle = result.battle;
 		battleDudes = result.battleDudes;
 		var winner = result.winner;
@@ -347,7 +368,7 @@ router.get('/fight', function(req, res){
 		}
 		
 		//END   ---------------_GENERATE BATTLE LOG HERE----------------------
-		console.log("Finished battle :"+JSON.stringify(battle));
+		//console.log("Finished battle :"+JSON.stringify(battle));
 		//battle.save(); Ook fout
 		for( i in battleDudes)
 		{
@@ -372,6 +393,8 @@ router.get('/fight', function(req, res){
 		//res.json(accounts);
 		res.redirect("/");
 	});
+	
+	refreshAll();
 });
 
 router.get('/battles', function(req,res) {
