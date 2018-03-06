@@ -8,6 +8,8 @@ var Account = new Schema({
 	username: String,
 	password: String,
 	level: Number,
+	xp: Number,
+	nextxp: Number,
 	trunk: [Item.schema],
 	helmet: [Item.schema],
 	armor: [Item.schema],

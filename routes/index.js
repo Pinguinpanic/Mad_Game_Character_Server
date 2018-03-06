@@ -5,6 +5,7 @@ var Account = require('../models/account');
 var Battle = require('../models/battle');
 var Item = require('../models/item');
 var Items = require("../declarations/items.js");
+var Level = require('../declarations/level.js');
 var BattleSimulation = require("../declarations/battle-simulation.js");
 var router = express.Router();
 
@@ -57,6 +58,8 @@ router.post('/register', function(req, res, next) {
 		totalarmor : 0,
 		totaldamage : 0,
 		level : 0,
+		xp : 0,
+		nextxp : Level.getXpForLvl(1),
 		battles : [],
 		lastBattle : [],
 		participating : false
@@ -76,7 +79,6 @@ router.post('/register', function(req, res, next) {
     });
 
 });
-
 
 router.get('/login', function(req, res) {
     res.render('login', { user : req.user, error : req.flash('error')});
@@ -100,7 +102,6 @@ router.get('/logout', function(req, res, next) {
         res.redirect('/');
     });
 });
-
 
 /* Account stuff handling */
 router.get('/participate', function(req, res){
@@ -130,7 +131,6 @@ router.get('/un-participate', function(req, res){
 	}
 
 });
-
 
 router.get('/add-random/:tier', function(req, res){
 	var tier = req.params.tier;
@@ -357,7 +357,6 @@ router.get('/fight', function(req, res){
 		if(winner!=undefined)
 		{
 			//console.log("Winner is"+winner);
-			winner.level+=(battle.userCount-1); 
 			winner.trunk.push(Items.getLeveledLoot(winner.level));
 			//console.log("Winner trunk:"+winner);
 			//winner.save();//HIER ZIT DE FOUT

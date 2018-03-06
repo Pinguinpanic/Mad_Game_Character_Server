@@ -1,6 +1,9 @@
-
+var Level = require('../declarations/level.js');
 //Weapon subtypes
 //var weaponsubtypes = ["unarmed","stab","slash","spear","hack","slash","club","doublekatana","excalibur","mjolnir","gungir","eagis"];
+
+var killXP = 50;
+var winnerXP = 50;
 
 var weaponAnimations = {
 	"unarmed" :
@@ -60,7 +63,6 @@ var weaponAnimations = {
 	},
 }
 
-
 function addLine(battle, line)
 {
 	battle.battleLog.push(line);
@@ -71,6 +73,17 @@ function choose(array)
 	return array[Math.floor(Math.random()*array.length)];
 }
 
+function addXp(battle, actor, xp)
+{
+	actor.user.xp+=xp;
+	while(actor.user.xp> Level.getXpForLvl(actor.user.level+1))
+	{
+		actor.user.level++;
+		actor.user.nextxp = Level.getXpForLvl(actor.user.level+1)
+		addLine(battle,actor.printname + ' leveled up.');
+		console.log('Level up for '+actor.user.username);
+	}	
+}
 
 function die(battle,actor)
 {
@@ -82,6 +95,7 @@ function die(battle,actor)
 		actor.user.totalarmor=0;
 		actor.user.totaldamage=0;
 		actor.user.level=0;
+		actor.user.xp=0;
 		if(actor.hp<-20)
 		{
 			addLine(battle,actor.printname+choose([" was absolutely pulverized."," was turned into a bloody pulp."," has been brutally massacred."]));
@@ -202,11 +216,14 @@ function fightBattle(battle,battleDudes)
 					{
 						die(battle,target);
 						remove.push(target);
+						addXp(battle,actor, killXP);
+						
 					}
 					if(actor.hp<=0)
 					{
 						die(battle,actor);
 						remove.push(actor);
+						addXp(battle,target, killXP);
 					}
 				}
 			}
@@ -221,9 +238,11 @@ function fightBattle(battle,battleDudes)
 				}
 			}
 		}
+		
 		if(battleActors.length > 0)
 		{
 			console.log("Winner = "+battleActors[0].printname);
+			addXp(battle, actor, winnerXP);
 			addLine(battle,battleActors[0].printname+" wins.");
 			return {battle: battle, battleDudes: battleDudes, winner : battleActors[0].user};
 		}
