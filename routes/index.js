@@ -37,7 +37,7 @@ router.get('/stream', function(req, res) {
 		'Connection': 'keep-alive'
 	})
 	connections.push(res);
-	console.log('Registered user');
+	console.log('Registered user '+connections.length);
 });
 
 router.get('/', function (req, res) {
@@ -391,9 +391,10 @@ router.get('/fight', function(req, res){
 		
 		//res.json(accounts);
 		res.redirect("/");
+		refreshAll();
 	});
 	
-	refreshAll();
+	
 });
 
 router.get('/battles', function(req,res) {

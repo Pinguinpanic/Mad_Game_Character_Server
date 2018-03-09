@@ -76,7 +76,7 @@ function choose(array)
 function addXp(battle, actor, xp)
 {
 	actor.user.xp+=xp;
-	while(actor.user.xp> Level.getXpForLvl(actor.user.level+1))
+	while(actor.user.xp>= Level.getXpForLvl(actor.user.level+1))
 	{
 		actor.user.level++;
 		actor.user.nextxp = Level.getXpForLvl(actor.user.level+1)

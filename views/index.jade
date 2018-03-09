@@ -13,6 +13,7 @@ block content
         source.addEventListener('message', function() {
           window.location.assign('/');
           window.location.reload();
+          location.reload(true);
         }, false)
       }
     h1 #{user.username}
