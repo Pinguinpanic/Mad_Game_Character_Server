@@ -51,6 +51,7 @@ router.get('/register', function(req, res) {
 router.post('/register', function(req, res, next) {
     Account.register(new Account({ 
 		username : req.body.username,
+		colour: rc(),
 		trunk : [],
 		helmet : [],
 		armor : [],
@@ -415,5 +416,10 @@ router.get('/battles', function(req,res) {
 router.get('/refresh', function(req,res) {
 	res.render('index', { user : req.user, battle: battle });
 });
+
+function rc()
+{
+	return "#"+((1<<24)*Math.random()|0).toString(16)
+}
 
 module.exports = router;

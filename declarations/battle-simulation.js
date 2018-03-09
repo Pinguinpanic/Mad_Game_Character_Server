@@ -154,12 +154,6 @@ function uniq(a) {
     })
 }
 
-function rc()
-{
-	return "#"+((1<<24)*Math.random()|0).toString(16)
-}
-
-
 function fightBattle(battle,battleDudes)
 {
 	if(battle.userCount <=1)
@@ -176,7 +170,7 @@ function fightBattle(battle,battleDudes)
 		{
 			var dude = battleDudes[i];
 
-			var newActor = {printname: "<span style=\"color:"+rc()+";\">"+dude.username+"</span>", user: dude, hp: dude.totalarmor+20+dude.level/2, dmg: dude.totaldamage+20+dude.level/2};
+			var newActor = {printname: "<span style=\"color:"+dude.colour+";\">"+dude.username+"</span>", user: dude, hp: dude.totalarmor+20+dude.level/2, dmg: dude.totaldamage+20+dude.level/2};
 			addLine(battle,newActor.printname + " joins the fights.");
 			if(dude.weapon.length>0)
 			{
