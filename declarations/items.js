@@ -258,7 +258,7 @@ for(var i=0;i<4;i++)
 	for(var ii=0;ii<itemsTier[i].length;ii++)
 	{
 		itemsTier[i][ii].fresh = true;
-		itemsTier[i][ii].chest = lootChests[i][i%lootChests[i].length];
+		itemsTier[i][ii].chest = lootChests[i][ii%lootChests[i].length];
 	}
 }
 
