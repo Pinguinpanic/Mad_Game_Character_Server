@@ -96,6 +96,7 @@ function die(battle,actor)
 		actor.user.totaldamage=0;
 		actor.user.level=0;
 		actor.user.xp=0;
+		actor.user.nextxp=Level.getXpForLvl(1);
 		actor.user.fresh = true;
 		if(actor.hp<-20)
 		{
