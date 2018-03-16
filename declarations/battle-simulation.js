@@ -98,6 +98,7 @@ function die(battle,actor)
 		actor.user.xp=0;
 		actor.user.nextxp=Level.getXpForLvl(1);
 		actor.user.fresh = true;
+		actor.user.participating = false;
 		if(actor.hp<-20)
 		{
 			addLine(battle,actor.printname+choose([" was absolutely pulverized."," was turned into a bloody pulp."," has been brutally massacred."]));

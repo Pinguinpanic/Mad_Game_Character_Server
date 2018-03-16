@@ -266,16 +266,20 @@ for(var i=0;i<4;i++)
 //Individual Loot Chance
 function ilc(tier, lvl)
 {
+	if(lvl>30)
+	{
+		lvl = 30;
+	}
 	switch(tier)
 	{
 		case 0:
 		return Math.max(0,100-3*lvl);
 		case 1:
-		return Math.max(0,0.0104819*lvl*lvl*lvl-0.678667*lvl*lvl+11.9949*lvl-0.765172);
+		return Math.max(0,0.0104819*lvl*lvl*lvl-0.678667*lvl*lvl+11.9949*lvl);
 		case 2:
-		return Math.max(0,0.00126743*lvl*lvl*lvl-0.124757*lvl*lvl+3.85381*lvl-17.7995);
+		return Math.max(0,0.00126743*lvl*lvl*lvl-0.124757*lvl*lvl+4.2*lvl-10);
 		case 3:
-		return Math.max(0,-0.0015481*lvl*lvl*lvl+0.0465047*lvl*lvl+0.965397*lvl-13.2352);
+		return Math.max(0,-0.0015481*lvl*lvl*lvl+0.0465047*lvl*lvl+0.965397*lvl-5);
 	}
 }
 //LOOT CURVES
