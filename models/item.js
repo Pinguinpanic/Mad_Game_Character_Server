@@ -7,7 +7,9 @@ var Item = new Schema({
 	type: String,
 	subtype: String,
 	damage: Number,
-	armor: Number
+	armor: Number,
+	fresh: Boolean,
+	chest: String
 });
 
 module.exports = mongoose.model('Item', Item);

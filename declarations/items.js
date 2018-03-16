@@ -124,6 +124,7 @@ tier3modifiers.push({name:"Pulsing", 	damage:4, 	armor:0,	affect:["Weapon","Armo
 tier3modifiers.push({name:"Lightning", 	damage:5, 	armor:0,	affect:["Weapon","Armor","Helmet"]});
 tier3modifiers.push({name:"Enchanted",	damage:0, 	armor:5,	affect:["Weapon","Armor","Helmet"]});
 
+
 //For all tiers create extra items with modifiers
 for(var i=0; i<3; i++)
 {
@@ -244,6 +245,23 @@ for(var i = 0; i<itemsTier.length ; i++)
 }
 
 console.log("Total of "+total+" loaded.");
+
+var lootChests =[
+	["Smelly bag","Wooden chest","Sack","Wooden barrel","Plastic teut"],
+	["Decent chest","Chest","Iron Barrel","Box","Knapsack","Sachel","Case","Copper Chest"],
+	["Silver Chest","Decorated Chest","Nice Bag","Mithril Chest","Embroided Bag","Special Chest"],
+	["Magical lamp","Golden chest","Pandora's Box","Dark Chest","Diamond Chest","Very Nice Bag"]
+];
+//Give everything a loot Chest
+for(var i=0;i<4;i++)
+{
+	for(var ii=0;ii<itemsTier[i].length;ii++)
+	{
+		itemsTier[i][ii].fresh = true;
+		itemsTier[i][ii].chest = lootChests[i][i%lootChests[i].length];
+	}
+}
+
 
 //Individual Loot Chance
 function ilc(tier, lvl)

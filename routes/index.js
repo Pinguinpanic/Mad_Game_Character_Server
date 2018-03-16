@@ -278,6 +278,20 @@ router.get('/unequip/:id', function(req, res){
 	res.render('index', { user : req.user, battle: battle });
 })
 
+router.get('/open/:id', function(req, res) {
+	var id = req.params.id;
+	for(var i in req.user.trunk)
+	{
+		var item=req.user.trunk[i];
+		if(item._id == id)
+		{
+			item.fresh = false;
+		}
+	}
+	req.user.save();
+	res.render('index', { user : req.user, battle: battle });
+})
+
 //ADMIN STUFF
 function getDateTime() {
 

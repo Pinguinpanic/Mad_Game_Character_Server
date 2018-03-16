@@ -100,18 +100,25 @@ block content
               td 
                 b Damage
               td
-                b Equip
+                b Action
               each val in user.trunk
                 tr
-                  td
-                    p(class="tier#{val.tier}") #{val.name}
-                  td #{val.type}
-                  td #{val.armor}
-                  td #{val.damage}
-                  td
-                    a.glyphicon.glyphicon-plus(href="/equip/#{val._id}")    
-
-
+                  if val.fresh
+                    td 
+                       p(class="tier#{val.tier}") #{val.chest}
+                    td
+                    td
+                    td
+                    td 
+                      a.glyphicon.glyphicon-open(href="/open/#{val._id}") Open
+                  else
+                    td 
+                      p(class="tier#{val.tier}") #{val.name}
+                    td #{val.type}
+                    td #{val.armor}
+                    td #{val.damage}
+                    td 
+                      a.glyphicon.glyphicon-plus(href="/equip/#{val._id}") Equip
     .row
       .col-lg-6
         h2 Next Battle
