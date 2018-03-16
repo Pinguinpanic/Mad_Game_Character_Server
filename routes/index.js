@@ -63,7 +63,8 @@ router.post('/register', function(req, res, next) {
 		nextxp : Level.getXpForLvl(1),
 		battles : [],
 		lastBattle : [],
-		participating : false
+		participating : false,
+		fresh: false
 	}), req.body.password, function(err, account) {
         if (err) {
           return res.render('register', { error : err.message });
@@ -292,6 +293,12 @@ router.get('/open/:id', function(req, res) {
 	res.render('index', { user : req.user, battle: battle });
 })
 
+router.get('/revive', function(req, res) {
+	req.user.fresh = false;
+	req.user.save();
+	res.render('index', { user : req.user, battle: battle });
+})
+
 //ADMIN STUFF
 function getDateTime() {
 
@@ -373,6 +380,7 @@ router.get('/fight', function(req, res){
 		{
 			//console.log("Winner is"+winner);
 			winner.trunk.push(Items.getLeveledLoot(winner.level));
+			
 			//console.log("Winner trunk:"+winner);
 			//winner.save();//HIER ZIT DE FOUT
 		}

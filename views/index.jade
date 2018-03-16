@@ -7,133 +7,141 @@ block content
     p Please log in or register to participate!
     
   if (user)
-    script.
-      if(!!window.EventSource) {
-        var source = new EventSource('/stream')
-        source.addEventListener('message', function() {
-          window.location.assign('/');
-          window.location.reload();
-          location.reload(true);
-        }, false)
-      }
-    h1 <span style="color:#{user.colour}"> #{user.username} </span>
-    h2 Level #{user.level}
-    h3 XP #{user.xp} / #{user.nextxp}
-    .row
-      .col-lg-6
-        h2 Stats
-        table.table
-          tbody
-            tr
-              td 
-              td 
-                b Name
-              td 
-                b Armor
-              td 
-                b Damage
-              td
-                b Unequip
-            tr
-              td Helmet
-                if(user.helmet.length>0)
-                  td
-                    p(class="tier#{user.helmet[0].tier}") #{user.helmet[0].name}
-                  td #{user.helmet[0].armor}
-                  td #{user.helmet[0].damage}
-                  td
-                    a.glyphicon.glyphicon-minus(href="/unequip/0")
-                 else
-                   td
-                   td
-                   td
-                   td
-
-            tr
-              td Armor
-                if(user.armor.length>0)
-                  td
-                    p(class="tier#{user.armor[0].tier}") #{user.armor[0].name}
-                  td #{user.armor[0].armor}
-                  td #{user.armor[0].damage}
-                  td
-                    a.glyphicon.glyphicon-minus(href="/unequip/1")
-                 else
-                   td
-                   td
-                   td
-                   td
-            tr
-              td Weapon
-                if(user.weapon.length>0)
-                  td
-                    p(class="tier#{user.weapon[0].tier}") #{user.weapon[0].name}
-                  td #{user.weapon[0].armor}
-                  td #{user.weapon[0].damage}
-                  td
-                    a.glyphicon.glyphicon-minus(href="/unequip/2")
-                 else
-                   td
-                   td
-                   td
-                   td
-            tr
-              td
-                b Total
-              td
-              td
-               p #{user.totalarmor}
-              td
-               p #{user.totaldamage}
-              td
-      .col-lg-6.trunk
-        h2 Trunk
-        table.table
-          tbody.trunk
-            tr
-              td 
-                b Name
-              td
-                b Type
-              td 
-                b Armor
-              td 
-                b Damage
-              td
-                b Action
-              each val in user.trunk
-                tr
-                  if val.fresh
-                    td 
-                       p(class="tier#{val.tier}") #{val.chest}
+    if(!user.fresh)
+      script.
+        if(!!window.EventSource) {
+          var source = new EventSource('/stream')
+          source.addEventListener('message', function() {
+            window.location.assign('/');
+            window.location.reload();
+            location.reload(true);
+          }, false)
+        }
+      h1 <span style="color:#{user.colour}"> #{user.username} </span>
+      h2 Level #{user.level}
+      h3 XP #{user.xp} / #{user.nextxp}
+      .row
+        .col-lg-6
+          h2 Stats
+          table.table
+            tbody
+              tr
+                td 
+                td 
+                  b Name
+                td 
+                  b Armor
+                td 
+                  b Damage
+                td
+                  b Unequip
+              tr
+                td Helmet
+                  if(user.helmet.length>0)
                     td
+                      p(class="tier#{user.helmet[0].tier}") #{user.helmet[0].name}
+                    td #{user.helmet[0].armor}
+                    td #{user.helmet[0].damage}
                     td
+                      a.glyphicon.glyphicon-minus(href="/unequip/0")
+                   else
+                     td
+                     td
+                     td
+                     td
+              tr
+                td Armor
+                  if(user.armor.length>0)
                     td
-                    td 
-                      a.glyphicon.glyphicon-open(href="/open/#{val._id}") Open
-                  else
-                    td 
-                      p(class="tier#{val.tier}") #{val.name}
-                    td #{val.type}
-                    td #{val.armor}
-                    td #{val.damage}
-                    td 
-                      a.glyphicon.glyphicon-plus(href="/equip/#{val._id}") Equip
-    .row
-      .col-lg-6
-        h2 Next Battle
-        p Battle starts in #{battle.date}. There are #{battle.userCount} users participating.
-        if (user.participating)
-          p #{user.username} is participating in the upcoming battle.
-          a.btn.btn-lg.btn-danger.btn-block(href="/un-participate") Leave
-        if (!user.participating)
-          p #{user.username} is not participating in the upcoming battle.
-          a.btn.btn-lg.btn-success.btn-block(href="/participate") Join 
-        a.btn.btn-lg.btn-primary.btn-block(href="/refresh") Refresh 
-        a.btn.btn-lg.btn-danger.btn-block(href="/fight") Fight 
-      .col-lg-6
-        h2 Last battle
-        each battle in user.lastBattle
-          p There were #{battle.userCount} users participating in a fight on #{battle.date}.
-          each line in battle.battleLog
-            p !{line}
+                      p(class="tier#{user.armor[0].tier}") #{user.armor[0].name}
+                    td #{user.armor[0].armor}
+                    td #{user.armor[0].damage}
+                    td
+                      a.glyphicon.glyphicon-minus(href="/unequip/1")
+                   else
+                     td
+                     td
+                     td
+                     td
+              tr
+                td Weapon
+                  if(user.weapon.length>0)
+                    td
+                      p(class="tier#{user.weapon[0].tier}") #{user.weapon[0].name}
+                    td #{user.weapon[0].armor}
+                    td #{user.weapon[0].damage}
+                    td
+                      a.glyphicon.glyphicon-minus(href="/unequip/2")
+                   else
+                     td
+                     td
+                     td
+                     td
+              tr
+                td
+                  b Total
+                td
+                td
+                 p #{user.totalarmor}
+                td
+                 p #{user.totaldamage}
+                td
+        .col-lg-6.trunk
+          h2 Trunk
+          table.table
+            tbody.trunk
+              tr
+                td 
+                  b Name
+                td
+                  b Type
+                td 
+                  b Armor
+                td 
+                  b Damage
+                td
+                  b Action
+                each val in user.trunk
+                  tr
+                    if val.fresh
+                      td 
+                         p(class="tier#{val.tier}") #{val.chest}
+                      td
+                      td
+                      td
+                      td 
+                        a.glyphicon.glyphicon-open(href="/open/#{val._id}") Open
+                    else
+                      td 
+                        p(class="tier#{val.tier}") #{val.name}
+                      td #{val.type}
+                      td #{val.armor}
+                      td #{val.damage}
+                      td 
+                        a.glyphicon.glyphicon-plus(href="/equip/#{val._id}") Equip
+      .row
+        .col-lg-6
+          h2 Next Battle
+          p Battle starts in #{battle.date}. There are #{battle.userCount} users participating.
+          if (user.participating)
+            p #{user.username} is participating in the upcoming battle.
+            a.btn.btn-lg.btn-danger.btn-block(href="/un-participate") Leave
+          if (!user.participating)
+            p #{user.username} is not participating in the upcoming battle.
+            a.btn.btn-lg.btn-success.btn-block(href="/participate") Join 
+          a.btn.btn-lg.btn-primary.btn-block(href="/refresh") Refresh 
+          a.btn.btn-lg.btn-danger.btn-block(href="/fight") Fight 
+        .col-lg-6
+          h2 Last battle
+          each battle in user.lastBattle
+            p There were #{battle.userCount} users participating in a fight on #{battle.date}.
+            each line in battle.battleLog
+              p !{line}
+    else
+      h2 You're death.
+      a(href="/revive") Click here to revive.
+      h2 Last battle
+      each battle in user.lastBattle
+        p There were #{battle.userCount} users participating in a fight on #{battle.date}.
+        each line in battle.battleLog
+          p !{line}

@@ -19,7 +19,8 @@ var Account = new Schema({
         totaldamage: Number,
 	battles: [Battle.schema],
 	lastBattle : [Battle.schema],
-	participating: Boolean
+	participating: Boolean,
+	fresh: Boolean
 });
 
 Account.plugin(passportLocalMongoose);
