@@ -290,6 +290,32 @@ function lootChance(tier,lvl)
 	return ilc(tier,lvl)/sum;
 }
 
+function getLeveledTier(level)
+{
+	var cum=0;
+	var chance = Math.random();
+	cum+=lootChance(0,level);
+	if(chance<=cum)
+	{
+		return 0;
+	}
+	cum+=lootChance(1,level);
+	if(chance<=cum)
+	{
+		return 1;
+	}
+	cum+=lootChance(2,level);
+	if(chance<=cum)
+	{
+		return 2;
+	}
+	else
+	{
+		return 3;
+	}
+}
+
+
 function getLoot(tier)
 {
 	var tierItems = itemsTier[tier];
@@ -311,27 +337,11 @@ module.exports = {
 	},
 	getLeveledLoot: function(level)
 	{
-		var cum=0;
-		var chance = Math.random();
-		cum+=lootChance(0,level);
-		if(chance<=cum)
-		{
-			return getLoot(0);
-		}
-		cum+=lootChance(1,level);
-		if(chance<=cum)
-		{
-			return getLoot(1);
-		}
-		cum+=lootChance(2,level);
-		if(chance<=cum)
-		{
-			return getLoot(2);
-		}
-		else
-		{
-			return getLoot(3);
-		}
+		return getLoot(getLeveledTier(level));
+	},
+	getScaledTier: function(level)
+	{
+		return getLeveledTier(level);
 	}
 }
 

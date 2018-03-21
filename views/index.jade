@@ -119,7 +119,33 @@ block content
                       td #{val.damage}
                       td 
                         a.glyphicon.glyphicon-plus(href="/equip/#{val._id}") Equip
-      .row
+        .col-lg-6.quests
+          h2 Quests
+          table.table
+            tbody.quests
+              tr
+                td 
+                  b Task
+                td
+                  b xp
+                td 
+                  b Danger
+                td 
+                  b Difficulty
+                td
+                  b Time
+                td
+                  b Action
+                each val in user.quests
+                  tr
+                    td 
+                      p(class="tier#{val.tier}") #{val.name}
+                    td #{val.xp}
+                    td #{val.danger}
+                    td #{val.difficulty}
+                    td #{val.time}	
+                    td 
+                      a.glyphicon.glyphicon-play(href="/take-quest/#{val._id}")					
         .col-lg-6
           h2 Next Battle
           p Battle starts in #{battle.date}. There are #{battle.userCount} users participating.

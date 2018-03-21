@@ -4,7 +4,9 @@ var sse = require('sse') ;
 var Account = require('../models/account');
 var Battle = require('../models/battle');
 var Item = require('../models/item');
+var Quest = require('../models/quest');
 var Items = require("../declarations/items.js");
+var Quests = require("../declarations/quests.js"); 
 var Level = require('../declarations/level.js');
 var BattleSimulation = require("../declarations/battle-simulation.js");
 var router = express.Router();
@@ -62,6 +64,7 @@ router.post('/register', function(req, res, next) {
 		xp : 0,
 		nextxp : Level.getXpForLvl(1),
 		battles : [],
+		quests: Quests.generateQuestSet(0,5),
 		lastBattle : [],
 		participating : false,
 		fresh: false
@@ -437,6 +440,11 @@ router.get('/battles', function(req,res) {
 
 router.get('/refresh', function(req,res) {
 	res.render('index', { user : req.user, battle: battle });
+});
+
+router.get('/show-quests/:lvl', function(req, res){
+	var lvl = Number(req.params.lvl);
+	res.json(Quests.generateQuestSet(lvl,5));
 });
 
 function rc()

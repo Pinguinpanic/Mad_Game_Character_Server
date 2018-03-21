@@ -97,6 +97,7 @@ function die(battle,actor)
 		actor.user.level=0;
 		actor.user.xp=0;
 		actor.user.nextxp=Level.getXpForLvl(1);
+		actor.user.quests=Quests.generateQuestSet(0,5);
 		actor.user.fresh = true;
 		actor.user.participating = false;
 		if(actor.hp<-20)
