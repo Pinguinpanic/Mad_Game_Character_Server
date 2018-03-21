@@ -7,6 +7,7 @@ var Item = require('../models/item');
 var Quest = require('../models/quest');
 var Items = require("../declarations/items.js");
 var Quests = require("../declarations/quests.js"); 
+var Accounts = require("../declarations/accounts.js"); 
 var Level = require('../declarations/level.js');
 var BattleSimulation = require("../declarations/battle-simulation.js");
 var router = express.Router();
@@ -144,6 +145,13 @@ router.get('/add-random/:tier', function(req, res){
 	res.render('index', { user : req.user, battle: battle });
 });
 
+router.get('/add-xp/:xp', function(req, res) {
+	var xp = Number(req.params.xp);
+	Accounts.addXp(req.user,xp);
+	req.user.save();
+	res.render('index', { user : req.user, battle: battle });
+})
+
 router.get('/take-quest/:id', function(req,res) {
 	var questResult;;
 	var id = req.params.id;
@@ -154,7 +162,7 @@ router.get('/take-quest/:id', function(req,res) {
 		{
 			//THIS IS THE QUEST WE DO
 			questResult=Quests.doQuest(req.user,quest);
-			req.user.quests=Quests.generateQuestSet(0,5);
+			req.user.quests=Quests.generateQuestSet(req.user.level,5);
 		}
 	}
 	req.user.save();
@@ -349,6 +357,9 @@ function uniq(a) {
         return !pos || item != ary[pos - 1];
     })
 }
+
+
+
 
 router.get('/fight', function(req, res){
 
