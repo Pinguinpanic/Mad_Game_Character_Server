@@ -1,4 +1,4 @@
-var Level = require('../declarations/level.js');
+var Accounts = require('../declarations/accounts.js');
 //Weapon subtypes
 //var weaponsubtypes = ["unarmed","stab","slash","spear","hack","slash","club","doublekatana","excalibur","mjolnir","gungir","eagis"];
 
@@ -75,31 +75,18 @@ function choose(array)
 
 function addXp(battle, actor, xp)
 {
-	actor.user.xp+=xp;
-	while(actor.user.xp>= Level.getXpForLvl(actor.user.level+1))
+	var lvlUps = Accounts.addXp(actor.user,xp);
+	for(var i=0;i<lvlUps;i++)
 	{
-		actor.user.level++;
-		actor.user.nextxp = Level.getXpForLvl(actor.user.level+1)
 		addLine(battle,actor.printname + ' leveled up.');
-		console.log('Level up for '+actor.user.username);
-	}	
+	}
 }
 
 function die(battle,actor)
 {
 	if(Math.random()*-50>Math.random()*actor.hp || Math.random()>0.9)
 	{
-		actor.user.weapon=[];
-		actor.user.armor=[];
-		actor.user.helmet=[];
-		actor.user.totalarmor=0;
-		actor.user.totaldamage=0;
-		actor.user.level=0;
-		actor.user.xp=0;
-		actor.user.nextxp=Level.getXpForLvl(1);
-		actor.user.quests=Quests.generateQuestSet(0,5);
-		actor.user.fresh = true;
-		actor.user.participating = false;
+		Accounts.die(actor.user);
 		if(actor.hp<-20)
 		{
 			addLine(battle,actor.printname+choose([" was absolutely pulverized."," was turned into a bloody pulp."," has been brutally massacred."]));
