@@ -1,5 +1,5 @@
-var Level = require('../declarations/level.js');
 var Quests = require("../declarations/quests.js"); 
+var Level = require('../declarations/level.js');
 
 function die(account) {
 	account.weapon=[];

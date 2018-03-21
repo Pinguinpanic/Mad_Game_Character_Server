@@ -144,6 +144,23 @@ router.get('/add-random/:tier', function(req, res){
 	res.render('index', { user : req.user, battle: battle });
 });
 
+router.get('/take-quest/:id', function(req,res) {
+	var questResult;;
+	var id = req.params.id;
+	for(var i in req.user.quests)
+	{
+		var quest = req.user.quests[i];
+		if(quest._id == id)
+		{
+			//THIS IS THE QUEST WE DO
+			questResult=Quests.doQuest(req.user,quest);
+			req.user.quests=Quests.generateQuestSet(0,5);
+		}
+	}
+	req.user.save();
+	res.render('index', { user : req.user, battle: battle, quest: questResult });
+});
+
 router.get('/equip/:id', function(req, res){
 	var id= req.params.id;
 	var index = -1;

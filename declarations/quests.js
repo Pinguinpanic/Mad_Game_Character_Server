@@ -1,5 +1,6 @@
 var Quest = require('../models/quest');
 var Items = require("../declarations/items.js");
+var Accounts = require('../declarations/accounts.js');
 
 console.log("Loading quests...");
 
@@ -40,7 +41,7 @@ function generateQuest(lvl)
 		var xp = 5+Math.round(15*Math.random());
 		var danger = Math.round(Math.random()*10);
 		var difficulty = Math.round(50*Math.random());
-		var time = Math.round(Math.random()*15);
+		var time = 3+Math.round(Math.random()*15);
 	}
 	else
 	{
@@ -48,9 +49,31 @@ function generateQuest(lvl)
 		var xp = 10+Math.round(40*Math.random());
 		var danger = Math.round(Math.random()*25);
 		var difficulty = Math.round(100*Math.random());
-		var time = Math.round(5+Math.random()*25);
+		var time = 5+Math.round(Math.random()*25);
 	}
 	return new Quest({name: name, tier: tier, xp: xp, danger: danger, difficulty: difficulty, time: time});
+}
+
+function preformQuest(account, quest)
+{
+	//Catastrophic failure
+	if(Math.random()*100<quest.danger)
+	{
+		Accounts.die(account);
+		return "You died on your quest to "+quest.name;
+	}
+	//Went okay
+	if(Math.random()*100>quest.difficulty)
+	{
+		Accounts.addXp(account, quest.xp);
+		var newItem = Items.getLoot(quest.tier)
+		account.trunk.push(newItem);
+		return "You succeeded on your quest to "+quest.name+ " You earned " +quest.xp+" xp and received a " +newItem.chest+"!";
+	}
+	//Failed, still get a little xp
+	var xp= 1+Math.floor(quest.xp*Math.random());
+	Accounts.addXp(account,xp);
+	return "You did not manage to "+quest.name+" You still earned " +xp+" xp.";
 }
 
 function getRandomizedLevel(lvl)
@@ -93,9 +116,9 @@ module.exports = {
 		}
 		return quests;
 	},
-	doQuest: function(quest)
+	doQuest: function(account, quest)
 	{
-		return preformQuest(quest);
+		return preformQuest(account, quest);
 	}
 }
 

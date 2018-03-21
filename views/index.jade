@@ -1,6 +1,19 @@
 extends layout
 
 block content
+  if(quest != undefined)
+    script.
+      $(document).ready(function(){
+        $("#questModal").modal("show");
+      })
+    #questModal.modal(role="dialog")
+      .modal-content
+        .modal-header
+          h4.modal-title Modal Header
+        .modal-body
+          p #{quest}
+        .modal-footer
+          button.btn.btn-default(type="button" data-dismiss="modal") Oké
   if (!user)
     h1 Next Battle
     p Starts in #{battle.date}. There are #{battle.userCount} users participating.
