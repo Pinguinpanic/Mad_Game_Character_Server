@@ -323,6 +323,7 @@ router.get('/open/:id', function(req, res) {
 
 router.get('/revive', function(req, res) {
 	req.user.fresh = false;
+	req.user.quests = Quests.generateQuestSet(0,5)
 	req.user.save();
 	res.render('index', { user : req.user, battle: battle });
 })

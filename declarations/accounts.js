@@ -1,4 +1,3 @@
-var Quests = require("../declarations/quests.js"); 
 var Level = require('../declarations/level.js');
 
 function die(account) {
@@ -10,7 +9,7 @@ function die(account) {
 	account.level=0;
 	account.xp=0;
 	account.nextxp=Level.getXpForLvl(1);
-	account.quests=Quests.generateQuestSet(0,5);
+	account.quests=[];
 	account.fresh = true;
 	account.participating = false;
 }
