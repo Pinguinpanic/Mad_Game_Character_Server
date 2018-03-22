@@ -34,7 +34,6 @@ function generateQuest(lvl)
 {
 	lvl = getRandomizedLevel(lvl);
 	var tier = Items.getScaledTier(lvl);
-	console.log(lvl+","+tier);
 	if(tier<2)
 	{
 		var name=getLowQuestName();
