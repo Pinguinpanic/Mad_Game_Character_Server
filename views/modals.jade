@@ -1,9 +1,9 @@
 if(showmodal != undefined)
   script.
     $(document).ready(function(){
-      $("#questModal").modal("show");
+      $("#generalModal").modal("show");
     })
-  #questModal.modal(role="dialog")
+  #generalModal.modal(role="dialog")
     .modal-content
       .modal-header
         h4.modal-title #{showmodal.title}
@@ -11,3 +11,20 @@ if(showmodal != undefined)
         p #{showmodal.message}
       .modal-footer
         button.btn.btn-default(type="button" data-dismiss="modal") Ok
+if(user != undefined)
+  if(user.lastBattleFresh)
+    script.
+      $(document).ready(function(){
+        $("#battleModal").modal("show");
+      })
+    #battleModal.modal(role="dialog")
+      .modal-content
+        .modal-header
+          h4.modal-title Fight Report
+        .modal-body
+          each battle in user.lastBattle
+            p There were #{battle.userCount} users participating in a fight on #{battle.date}.
+            each line in battle.battleLog
+              p !{line}
+        .modal-footer
+          a(href="/goawaymodalpls" class="button btn btn-default" type="button") Ok

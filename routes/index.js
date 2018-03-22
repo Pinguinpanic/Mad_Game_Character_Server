@@ -47,6 +47,15 @@ router.get('/', function (req, res) {
     res.render('index', { user : req.user, battle: battle });
 });
 
+router.get('/goawaymodalpls', function (req,res) {
+	if(req.user!= undefined)
+	{
+		req.user.lastBattleFresh = false;
+		req.user.save();
+		res.render('index', { user : req.user, battle: battle });
+	}
+});
+
 router.get('/register', function(req, res) {
     res.render('register', { });
 });
@@ -68,7 +77,8 @@ router.post('/register', function(req, res, next) {
 		quests: Quests.generateQuestSet(0,5),
 		lastBattle : [],
 		participating : false,
-		fresh: false
+		fresh: false,
+		lastBattleFresh: false, 
 	}), req.body.password, function(err, account) {
         if (err) {
           return res.render('register', { error : err.message });
@@ -118,7 +128,7 @@ router.get('/participate', function(req, res){
 		battle.participaters.push(req.user._id);
 		console.log("Participating in : "+JSON.stringify(battle));
 		battle.userCount +=1;
-		res.render('index', { user : req.user, battle: battle });
+		res.redirect('/');
 	}
 });
 
@@ -133,7 +143,7 @@ router.get('/un-participate', function(req, res){
 			battle.participaters.splice(index,1);
 			battle.userCount -=1;
 		}
-		res.render('index', { user : req.user, battle: battle });
+		res.redirect('/');
 	}
 
 });
@@ -258,8 +268,8 @@ router.get('/equip/:id', function(req, res){
 	req.user.totaldamage=totaldamage;
 
 	req.user.save();
-	//res.redirect("/");
-	res.render('index', { user : req.user, battle: battle });
+	res.redirect("/");
+	//res.render('index', { user : req.user, battle: battle });
 })
 
 router.get('/unequip/:id', function(req, res){
@@ -303,8 +313,8 @@ router.get('/unequip/:id', function(req, res){
 	req.user.totaldamage=totaldamage;
 
 	req.user.save();
-	//res.redirect("/");
-	res.render('index', { user : req.user, battle: battle });
+	res.redirect("/");
+	//res.render('index', { user : req.user, battle: battle });
 })
 
 router.get('/open/:id', function(req, res) {
@@ -431,6 +441,7 @@ router.get('/fight', function(req, res){
 			var dude = battleDudes[i];
 			dude.battles.push(battle);
 			dude.lastBattle = battle;
+			dude.lastBattleFresh = true;
 			//console.log("Added battle result to: "+JSON.stringify(dude));
 			//dude.save(); Ook fout
 		}

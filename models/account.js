@@ -21,6 +21,7 @@ var Account = new Schema({
 	battles: [Battle.schema],
 	quests: [Quest.schema],
 	lastBattle : [Battle.schema],
+	lastBattleFresh : false,
 	participating: Boolean,
 	fresh: Boolean
 });
