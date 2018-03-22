@@ -1,0 +1,13 @@
+if(showmodal != undefined)
+  script.
+    $(document).ready(function(){
+      $("#questModal").modal("show");
+    })
+  #questModal.modal(role="dialog")
+    .modal-content
+      .modal-header
+        h4.modal-title #{showmodal.title}
+      .modal-body
+        p #{showmodal.message}
+      .modal-footer
+        button.btn.btn-default(type="button" data-dismiss="modal") Ok

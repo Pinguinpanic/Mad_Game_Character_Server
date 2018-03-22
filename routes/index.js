@@ -153,7 +153,7 @@ router.get('/add-xp/:xp', function(req, res) {
 })
 
 router.get('/take-quest/:id', function(req,res) {
-	var questResult;;
+	var questResult;
 	var id = req.params.id;
 	for(var i in req.user.quests)
 	{
@@ -166,7 +166,7 @@ router.get('/take-quest/:id', function(req,res) {
 		}
 	}
 	req.user.save();
-	res.render('index', { user : req.user, battle: battle, quest: questResult });
+	res.render('index', { user : req.user, battle: battle, showmodal: {title: "Quest Report", message: questResult }});
 });
 
 router.get('/equip/:id', function(req, res){
@@ -309,16 +309,18 @@ router.get('/unequip/:id', function(req, res){
 
 router.get('/open/:id', function(req, res) {
 	var id = req.params.id;
+	var foundItem;
 	for(var i in req.user.trunk)
 	{
 		var item=req.user.trunk[i];
 		if(item._id == id)
 		{
 			item.fresh = false;
+			foundItem = item;
 		}
 	}
 	req.user.save();
-	res.render('index', { user : req.user, battle: battle });
+	res.render('index', { user : req.user, battle: battle, showmodal: {title: foundItem.chest, message: "You opened the "+foundItem.chest+" and it contained a "+foundItem.name+"." }});
 })
 
 router.get('/revive', function(req, res) {
