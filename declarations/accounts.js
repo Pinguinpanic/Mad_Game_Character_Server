@@ -9,6 +9,7 @@ function die(account) {
 	account.level=0;
 	account.xp=0;
 	account.nextxp=Level.getXpForLvl(1);
+	currentquest=[];
 	account.quests=[];
 	account.fresh = true;
 	account.participating = false;

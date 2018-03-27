@@ -7,7 +7,9 @@ var Quest = new Schema({
 	xp: Number,
 	danger: Number,
 	difficulty: Number,
-	time: Number
+	time: Number,
+	start: Date,
+	end: Date
 });
 
 module.exports = mongoose.model('Quest', Quest);

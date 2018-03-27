@@ -20,6 +20,7 @@ var Account = new Schema({
         totaldamage: Number,
 	battles: [Battle.schema],
 	quests: [Quest.schema],
+	currentquest: [Quest.schema],
 	lastBattle : [Battle.schema],
 	lastBattleFresh : false,
 	participating: Boolean,

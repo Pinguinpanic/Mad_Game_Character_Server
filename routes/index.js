@@ -75,6 +75,7 @@ router.post('/register', function(req, res, next) {
 		nextxp : Level.getXpForLvl(1),
 		battles : [],
 		quests: Quests.generateQuestSet(0,5),
+		currentquest: [],
 		lastBattle : [],
 		participating : false,
 		fresh: false,
@@ -171,12 +172,14 @@ router.get('/take-quest/:id', function(req,res) {
 		if(quest._id == id)
 		{
 			//THIS IS THE QUEST WE DO
-			questResult=Quests.doQuest(req.user,quest);
-			req.user.quests=Quests.generateQuestSet(req.user.level,5);
+			var returnResult = Quests.startQuest(req.user,quest);
+			req.user.currentquest = returnResult;
+			//req.user.quests=Quests.generateQuestSet(req.user.level,5);
 		}
 	}
+	//res.render('index', { user : req.user, battle: battle, showmodal: {title: "Quest Report", message: questResult }});
 	req.user.save();
-	res.render('index', { user : req.user, battle: battle, showmodal: {title: "Quest Report", message: questResult }});
+	res.render('index', { user : req.user, battle: battle });
 });
 
 router.get('/equip/:id', function(req, res){

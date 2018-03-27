@@ -53,8 +53,16 @@ function generateQuest(lvl)
 	return new Quest({name: name, tier: tier, xp: xp, danger: danger, difficulty: difficulty, time: time});
 }
 
-function preformQuest(account, quest)
+function startQuest(account, quest)
 {
+	quest.start = new Date();
+	quest.end = new Date(quest.start.getTime()+quest.time*60000);
+	return quest;
+}
+
+function finishQuest(account)
+{
+	quest = currentQuest;
 	//Catastrophic failure
 	if(Math.random()*100<quest.danger)
 	{
@@ -115,9 +123,13 @@ module.exports = {
 		}
 		return quests;
 	},
-	doQuest: function(account, quest)
+	startQuest: function(account, quest)
 	{
-		return preformQuest(account, quest);
+		return startQuest(account, quest);
+	},
+	finishQuest: function(account)
+	{
+		return finishQuest(account, quest);
 	}
 }
 
